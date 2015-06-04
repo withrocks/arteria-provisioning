@@ -1,13 +1,13 @@
 ---
 
 - name: Download webui
-  get_url: url=https://downloads.stackstorm.net/releases/st2/0.9.2/webui/webui-0.9.2.tar.gz dest=/tmp/
+  get_url: url=https://downloads.stackstorm.net/releases/st2/{{ version }}/webui/webui-{{ version }}.tar.gz dest=/tmp/
 
 - name: Create /opt/opt/stackstorm/static/
   file: state=directory path=/opt/stackstorm/static/
 
 - name: Uncompress webui
-  unarchive: copy=no src=/tmp/webui-0.9.2.tar.gz  dest=/opt/stackstorm/static/
+  unarchive: copy=no src=/tmp/webui-{{ version }}.tar.gz  dest=/opt/stackstorm/static/
 
 - name: Set config
   template: src=config.js.j2 dest=/opt/stackstorm/static/webui/config.js 
