@@ -1,0 +1,19 @@
+---
+
+- name: Download webui
+  get_url: url=https://downloads.stackstorm.net/releases/st2/0.9.2/webui/webui-0.9.2.tar.gz dest=/tmp/
+
+- name: Create /opt/opt/stackstorm/static/
+  file: state=directory path=/opt/stackstorm/static/
+
+- name: Uncompress webui
+  unarchive: copy=no src=/tmp/webui-0.9.2.tar.gz  dest=/opt/stackstorm/static/
+
+- name: Set config
+  template: src=config.js.j2 dest=/opt/stackstorm/static/webui/config.js 
+
+# TODO This is an ugly fix for now, which we do
+# not want to keep when we move into production.
+- name: Restart st2
+  command: st2ctl restart
+  sudo: yes
