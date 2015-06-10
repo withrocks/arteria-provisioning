@@ -22,9 +22,6 @@ Vagrant.configure(2) do |config|
     ansible.playbook = "ansible-st2/playbooks/arteriaexpress.yaml"
     ansible.sudo = true
   end
-
-  config.vm.synced_folder "../arteria-packs", "/arteria"
-  config.vm.synced_folder "../arteria-packs", "/opt/stackstorm/packs/arteria-packs"
 end
 
 
