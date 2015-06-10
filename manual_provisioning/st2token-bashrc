@@ -1,0 +1,7 @@
+function st2token {
+  export ST2_AUTH_TOKEN=$(st2 auth testu -p testp | grep token | awk '{ print $4 }')
+  echo "Authenticated against st2, token=$ST2_AUTH_TOKEN"
+}
+
+# Initial auhtentication against st2, call st2token to login again
+st2token

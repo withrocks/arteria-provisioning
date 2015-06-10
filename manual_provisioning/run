@@ -1,0 +1,11 @@
+# This stuff is temporary, needs to be moved into playbooks
+if ! grep --quiet st2token ~/.bashrc  
+then
+  cat st2token-bashrc >> ~/.bashrc
+fi
+
+if ! grep --quiet art-master /etc/hosts  
+then
+  cat hosts >> /etc/hosts 
+fi
+

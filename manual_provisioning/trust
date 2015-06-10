@@ -1,0 +1,15 @@
+if [ "$(id -u)" != "0" ]; then
+  echo "You must be root to run this script" >&2
+  exit 1
+fi
+
+if [ ! -f /home/stanley/.ssh/stanley_rsa.pub ]; then 
+  echo "Creating stanley_rsa"
+  ssh-keygen -P "" -f /home/stanley/.ssh/stanley_rsa -C stanley@art-master
+else
+  echo "Keypair stanley_rsa already exists"
+fi 
+
+cat /home/stanley/.ssh/stanley_rsa.pub | ssh stanley@art-worker 'cat >> /home/stanley/.ssh/authorized_keys'
+ssh stanley@art-worker chmod 0700 /home/stanley/.ssh/
+ssh stanley@art-worker chmod 0600 /home/stanley/.ssh/authorized_keys
