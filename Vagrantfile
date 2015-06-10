@@ -15,6 +15,8 @@ Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/trusty64"
 
 
+  config.vm.synced_folder "../arteria-packs/", "/opt/stackstorm/packs/arteria-packs"
+
   # Forwarding these ports is required for the webui to work
   config.vm.network :forwarded_port, host: 8080, guest: 8080
   config.vm.network :forwarded_port, host: 9100, guest: 9100
