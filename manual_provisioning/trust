@@ -4,8 +4,9 @@
 rsafile="/home/stanley/.ssh/stanley_rsa"
 remotehost="art-worker"
 
-if [ "$(id -u)" != "0" ]; then
-  echo "You must be root to run this script" >&2
+# or root todo
+if [ "$(whoami)" != "stanley" ]; then
+  echo "You must be stanley to run this script" >&2
   exit 1
 fi
 
@@ -17,8 +18,6 @@ function generate_key {
       echo "Keypair $rsafile already exists"
     fi 
 }
-
-# TODO: Try to connect and don't do this if ssh works
 
 function synch_public_key {
     cat "$rsafile.pub" | ssh stanley@$remotehost 'cat >> /home/stanley/.ssh/authorized_keys
@@ -44,22 +43,34 @@ function connect {
     echo "Trying to connect to remote host $remotehost using $rsafile..."
     # note: not testing if the user will be able to sudo on the other end
     # also, not checking if the user is promted with password when running this
-    output=$(ssh -i $rsafile stanley@$remotehost 'whoami')
+    output=$(ssh -oBatchMode=yes -i $rsafile stanley@$remotehost 'whoami')
     if [ "$?" != "0" ] || [ "$output" != "stanley" ]; then
         return 1
     fi
     return 0
 }
 
+function exit_if_already_setup {
+    connect
+    if [ "$?" == "0" ]; then
+	echo "SSH keypair trust already established"
+	exit 0
+    fi
+}
+
+function validate_st2_remote {
+    echo "Running st2 action core.remote"
+    st2 run core.remote hosts="art-worker" username="stanley" -- uname | grep --quiet "succeeded\": true"
+    if [ "$?" != "0" ]; then
+        echo "Action core.remote exited with a non-null status"
+        exit 1
+    fi
+
+    echo "Action core.remote executed successfully"
+}
+
 generate_key
-
-# Check if we need to continue
-connect
-if [ "$?" == "0" ]; then
-    echo "SSH keypair trust already established"
-    exit 0
-fi
-
+exit_if_already_setup
 synch_public_key
 validate
 connect
@@ -67,3 +78,5 @@ if [ "$?" == "1" ]; then
     echo "Not able to connect"
     exit 1
 fi
+
+validate_st2_remote
