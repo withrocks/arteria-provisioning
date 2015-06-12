@@ -7,6 +7,7 @@ Vagrant.configure(2) do |config|
   config.vm.network "private_network", ip: "172.28.128.121"
 
   config.vm.synced_folder "../arteria-packs/", "/opt/stackstorm/packs/arteria-packs"
+  config.vm.synced_folder "../../arteria-packs", "/arteria"
 
   # Forwarding these ports is required for the webui to work
   config.vm.network :forwarded_port, host: 8080, guest: 8080
@@ -23,5 +24,3 @@ Vagrant.configure(2) do |config|
     ansible.sudo = true
   end
 end
-
-
