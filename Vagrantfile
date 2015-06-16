@@ -1,6 +1,14 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# TODO Add necessary minimum provisioning
+$script = <<EOF
+mkdir -pv /data/testtank1
+chown -R vagrant:vagrant /data
+chmod -R g+w /data
+mkdir -pv /data/scratch
+EOF
+
 Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
@@ -43,6 +51,8 @@ Vagrant.configure(2) do |config|
     testtank.vm.network :private_network, ip: '192.168.42.43'
 
     # TODO Add necessary minimum provisioning
+    
+    testtank.vm.provision "shell", inline: $script
 
   end  
 
