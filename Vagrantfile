@@ -8,7 +8,7 @@ Vagrant.configure(2) do |config|
 
   # Ensure that the VMs can reach each other
   config.hostmanager.enabled = true
-  config.hostmanager.manage_host = false
+  config.hostmanager.manage_host = true
   config.hostmanager.ignore_private_ip = false
 
   # Configure the stackstorm master node
@@ -25,7 +25,7 @@ Vagrant.configure(2) do |config|
     stackstorm.vm.network :forwarded_port, host: 8080, guest: 8080
     stackstorm.vm.network :forwarded_port, host: 9100, guest: 9100
     stackstorm.vm.network :forwarded_port, host: 9101, guest: 9101
-    
+
     stackstorm.vm.provider "virtualbox" do |v|
       v.memory = 2048
       v.cpus = 2
@@ -36,7 +36,7 @@ Vagrant.configure(2) do |config|
       ansible.sudo = true
     end
 
-  end  
+  end
 
   # Configure the biotank stand-in
   config.vm.define "testtank1" do |testtank|
@@ -47,6 +47,6 @@ Vagrant.configure(2) do |config|
     testtank.vm.synced_folder "../arteria-lib/", "/arteria/arteria-lib"
     # TODO Add necessary minimum provisioning
 
-  end  
+  end
 
 end

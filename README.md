@@ -9,7 +9,7 @@ Install the hostmanager plugin for Vagrant:
 
     vagrant plugin install vagrant-hostmanager
 
-This will manage the host files of the VMs and your hosting machine.
+This will manage the host files of the VMs and your hosting machine. Run `vagrant hostmanager` to update the hosts files.
 
 Running `vagrant up` will produce a virtual machine which runs StackStorm, including the WebUI, listening on `localhost:8080`.
 
