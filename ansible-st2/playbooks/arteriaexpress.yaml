@@ -3,7 +3,7 @@
   hosts: all
   vars:
     # the StackStorm version to install
-    version: 0.9.0
+    version: 0.11.2
   roles:
     - st2op
     - mongodb
