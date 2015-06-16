@@ -2,16 +2,6 @@
 
 set -e
 
-function add-to-hosts {
-    if ! grep --quiet $1 /etc/hosts; then 
-      echo "$2 $1 is missing in /etc/hosts - adding it"
-      echo "$2    $1" >> /etc/hosts
-    fi
-}
-
-add-to-hosts "stackstorm-master" "192.168.42.42"
-add-to-hosts "testtank1" "192.168.42.43"
-
 if ! vagrant plugin list | grep --quiet vagrant-hostmanager; then 
     echo "The vagrant package vagrant-hostmanager is missing"
     vagrant plugin install vagrant-hostmanager
