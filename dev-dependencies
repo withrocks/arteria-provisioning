@@ -1,0 +1,5 @@
+#!/bin/bash
+if ! vagrant plugin list | grep --quiet vagrant-hostmanager; then 
+  echo "The vagrant package vagrant-hostmanager is missing"
+  vagrant plugin install vagrant-hostmanager
+fi 
