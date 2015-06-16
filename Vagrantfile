@@ -18,6 +18,8 @@ Vagrant.configure(2) do |config|
     stackstorm.vm.network :private_network, ip: '192.168.42.42'
 
     stackstorm.vm.synced_folder "../arteria-packs/", "/opt/stackstorm/packs/arteria-packs"
+    stackstorm.vm.synced_folder "../arteria-packs/", "/arteria/arteria-packs"
+    stackstorm.vm.synced_folder "../arteria-lib/", "/arteria/arteria-lib"
 
     # Forwarding these ports is required for the webui to work
     stackstorm.vm.network :forwarded_port, host: 8080, guest: 8080
@@ -41,6 +43,8 @@ Vagrant.configure(2) do |config|
     testtank.vm.hostname = "testtank1"
     testtank.vm.network :private_network, ip: '192.168.42.43'
 
+    testtank.vm.synced_folder "../arteria-packs/", "/arteria/arteria-packs"
+    testtank.vm.synced_folder "../arteria-lib/", "/arteria/arteria-lib"
     # TODO Add necessary minimum provisioning
 
   end  
