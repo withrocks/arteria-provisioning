@@ -4,14 +4,23 @@
 # TODO Add necessary minimum provisioning
 $script = <<EOF
 mkdir -pv /data/testtank1
+mkdir /data/testtank1/mon1
+mkdir /data/testtank1/mon2
 chown -R vagrant:vagrant /data
 chmod -R g+w /data
 mkdir -pv /data/scratch
+
+echo "Installing basic global python requirements"
+apt-get -y install python-pip
+pip install virtualenv
+
+echo "Installing the runfolder package"
+cd /arteria/arteria-lib/runfolder/scripts/
+./install vagrant vagrant
+
 EOF
 
 Vagrant.configure(2) do |config|
-  # Every Vagrant development environment requires a box. You can search for
-  # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "ubuntu/trusty64"
 
   # Ensure that the VMs can reach each other
@@ -53,10 +62,8 @@ Vagrant.configure(2) do |config|
 
     testtank.vm.synced_folder "../arteria-packs/", "/arteria/arteria-packs"
     testtank.vm.synced_folder "../arteria-lib/", "/arteria/arteria-lib"
-    # TODO Add necessary minimum provisioning
-    
-    testtank.vm.provision "shell", inline: $script
 
+    testtank.vm.provision "shell", inline: $script
   end
 
 end
