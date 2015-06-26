@@ -66,4 +66,20 @@ Vagrant.configure(2) do |config|
     testtank.vm.provision "shell", inline: $script
   end
 
+  # Deploy ssh keys to all host to ensure they have the 
+  # password less ssh-access to each other.
+  
+  vagrant_ssh = "/home/vagrant/.ssh"
+
+  config.vm.provision "file",
+    source: "private_key",
+    destination: vagrant_ssh + "/key"
+
+  config.vm.provision "file",
+    source: "ssh_config",
+    destination: vagrant_ssh + "/config"
+
+  config.vm.provision "shell", inline: "ssh-keygen -y -f #{vagrant_ssh}/key > #{vagrant_ssh}/key.pub"
+  config.vm.provision "shell", inline: "cat #{vagrant_ssh}/key.pub >> #{vagrant_ssh}/authorized_keys"
+
 end

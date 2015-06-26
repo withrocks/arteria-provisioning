@@ -11,6 +11,10 @@ Install the hostmanager plugin for Vagrant:
 
 This will manage the host files of the VMs and your hosting machine. Run `vagrant hostmanager` to update the hosts files.
 
+Generate a ssh-key (without a password) that will be used to establish password less ssh between the hosts.
+
+    ssh-keygen -f private_key
+
 Running `vagrant up` will produce a virtual machine which runs StackStorm, including the WebUI, listening on `localhost:8080`.
 
 Login with `user=testu password=testp`.
