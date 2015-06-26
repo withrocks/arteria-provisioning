@@ -27,7 +27,8 @@ You'll need the following repos:
   ./arteria-lib
 
 *The runfolder micro-service*
-The runfolder package will be installed on testtank1 and integration tests will run during provisioning. The runfolder micro-service is running on port 10800: 
+
+The runfolder package will be installed on testtank1 and integration tests will run during provisioning. The service is running on port 10800 by default: 
  * Browse to http://testtank1:10800/api/1.0 for api help
  * Run integration tests:
    * From testtank1: 
@@ -36,4 +37,3 @@ The runfolder package will be installed on testtank1 and integration tests will 
    * If you want to run it from your machine:
      - Install nose with `pip install nose`
      - Run `nosetests ./arteria-lib/runfolder/tests/integration`
-
