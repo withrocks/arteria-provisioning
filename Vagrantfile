@@ -11,6 +11,7 @@ chmod -R g+w /data
 mkdir -pv /data/scratch
 
 echo "Installing basic global python requirements"
+apt-get update
 apt-get -y install python-pip
 pip install virtualenv
 
