@@ -3,9 +3,9 @@
 
 # TODO Add necessary minimum provisioning
 $script = <<EOF
-mkdir -pv /data/testtank1
-mkdir /data/testtank1/mon1
-mkdir /data/testtank1/mon2
+mkdir -pv /data/testarteria1
+mkdir /data/testarteria1/mon1
+mkdir /data/testarteria1/mon2
 chown -R vagrant:vagrant /data
 chmod -R g+w /data
 mkdir -pv /data/scratch
@@ -56,8 +56,8 @@ Vagrant.configure(2) do |config|
   end
 
   # Configure the biotank stand-in
-  config.vm.define "testtank1" do |testtank|
-    testtank.vm.hostname = "testtank1"
+  config.vm.define "testarteria1" do |testtank|
+    testtank.vm.hostname = "testarteria1"
     testtank.vm.network :private_network, ip: '192.168.42.43'
 
     testtank.vm.synced_folder "../arteria-packs/", "/arteria/arteria-packs"
@@ -66,9 +66,9 @@ Vagrant.configure(2) do |config|
     testtank.vm.provision "shell", inline: $script
   end
 
-  # Deploy ssh keys to all host to ensure they have the 
+  # Deploy ssh keys to all host to ensure they have the
   # password less ssh-access to each other.
-  
+
   vagrant_ssh = "/home/vagrant/.ssh"
 
   config.vm.provision "file",
