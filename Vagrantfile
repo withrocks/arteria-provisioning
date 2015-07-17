@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# TODO Add necessary minimum provisioning
+# TODO Add necessary minimum provisioning for testarteria
 $script = <<EOF
 mkdir -pv /data/testarteria1
 mkdir /data/testarteria1/mon1
@@ -51,7 +51,7 @@ Vagrant.configure(2) do |config|
 
     stackstorm.vm.provision "ansible" do |ansible|
       ansible.playbook = "ansible-st2/playbooks/arteriaexpress.yaml"
-      ansible.sudo = true
+      ansible.inventory_path = "ansible-st2/inventories/test_inventory"
     end
 
   end

@@ -4,13 +4,20 @@
   get_url: url=https://downloads.stackstorm.net/releases/st2/{{ version }}/webui/webui-{{ version }}.tar.gz dest=/tmp/
 
 - name: Create /opt/opt/stackstorm/static/
+  sudo: yes
   file: state=directory path=/opt/stackstorm/static/
 
 - name: Uncompress webui
+  sudo: yes
   unarchive: copy=no src=/tmp/webui-{{ version }}.tar.gz  dest=/opt/stackstorm/static/
 
 - name: Set config
+  sudo: yes
   template: src=config.js.j2 dest=/opt/stackstorm/static/webui/config.js 
+
+- name: Change directory owner from default stanley to our local user
+  sudo: yes
+  file: path=/opt/stackstorm/static/webui owner={{ ansible_ssh_user }} group={{ ansible_ssh_user }} recurse=yes 
 
 # TODO This is an ugly fix for now, which we do
 # not want to keep when we move into production.

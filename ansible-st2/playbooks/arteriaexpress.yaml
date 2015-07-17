@@ -1,6 +1,7 @@
 ---
 - name: Install st2 for arteria
-  hosts: all
+  remote_user: vagrant
+  hosts: master 
   vars:
     # the StackStorm version to install
     version: 0.11.2
@@ -19,4 +20,5 @@
         - st2reactor
     - mysql
     - mistral
-    - st2web 
+    - st2web
+    - arteria 
