@@ -6,7 +6,9 @@ $script = <<EOF
 mkdir -pv /data/testarteria1
 mkdir /data/testarteria1/mon1
 mkdir /data/testarteria1/mon2
+mkdir -pv /srv/samplesheet/processning/
 chown -R vagrant:vagrant /data
+chown -R vagrant:vagrant /srv/samplesheet
 chmod -R g+w /data
 mkdir -pv /data/scratch
 
