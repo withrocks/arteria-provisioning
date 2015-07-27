@@ -9,3 +9,8 @@ else
     echo "vagrant-hostmanager is already installed"
 fi 
 
+if [ ! -f 'private_key' ]; then
+  echo 'Generating ssh key'
+  ssh-keygen -f private_key -C 'arteria' -P ''
+fi
+
