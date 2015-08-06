@@ -12,10 +12,13 @@ chown -R vagrant:vagrant /srv/samplesheet
 chmod -R g+w /data
 mkdir -pv /data/scratch
 
-echo "Installing basic global python requirements"
+echo "Installing main python requirements (in no virtualenv)"
 apt-get update
 apt-get -y install python-pip
 pip install virtualenv
+
+echo "Installing supervisor"
+apt-get -y install supervisor
 
 echo "Installing the runfolder package"
 cd /arteria/arteria-lib/runfolder/scripts/
