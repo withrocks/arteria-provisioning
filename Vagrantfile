@@ -40,6 +40,7 @@ Vagrant.configure(2) do |config|
     stackstorm.vm.synced_folder "../arteria-packs/", "/opt/stackstorm/packs/arteria-packs"
     stackstorm.vm.synced_folder "../arteria-packs/", "/arteria/arteria-packs"
     stackstorm.vm.synced_folder "../arteria-lib/", "/arteria/arteria-lib"
+    stackstorm.vm.synced_folder "../arteria-provisioning/", "/arteria/arteria-provisioning"
 
     # Forwarding these ports is required for the webui to work
     stackstorm.vm.network :forwarded_port, host: 8080, guest: 8080
@@ -65,6 +66,7 @@ Vagrant.configure(2) do |config|
 
     testtank.vm.synced_folder "../arteria-packs/", "/arteria/arteria-packs"
     testtank.vm.synced_folder "../arteria-lib/", "/arteria/arteria-lib"
+    testtank.vm.synced_folder "../arteria-provisioning/", "/arteria/arteria-provisioning"
 
     testtank.vm.provision "shell", inline: $script
   end
