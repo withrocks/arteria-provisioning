@@ -24,3 +24,6 @@
 - name: Register arteria-packs
   command: /bin/bash -c "export ST2_AUTH_TOKEN={{ st2token.stdout }} && /arteria/arteria-packs/scripts/register"
 
+- name: Create log dir for arteria
+  sudo: yes
+  file: path=/var/log/arteria/ state=directory owner={{ ansible_ssh_user }} group={{ ansible_ssh_user }} mode=0755
