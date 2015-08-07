@@ -73,7 +73,7 @@ virtualenv $installpath/
 cp -v $source/config/app.config $installpath/etc/
 chown -R $user:$group $installpath
 
-logpath=/var/log/$product
+logpath=/var/log/arteria
 echo "Creating log directory at $logpath"
 mkdir -pv $logpath
 chown -R $user:$group $logpath
