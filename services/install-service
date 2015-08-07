@@ -6,13 +6,14 @@
 # This requires pip and virtualenv
 
 function usage {
-    echo "install <product> user [group] [type] [source] [installpath]"
+    echo "install-service <product> <user> [group] [type] [src] [arteria-src] [installpath]"
     echo
     echo "  product: The name of the package being installed, e.g. 'runfolder'"
     echo "  user: The user which will run the service"
     echo "  group: The group that should have access to log files etc"
     echo "  type: default 'dev'"
-    echo "  source: default '/arteria/arteria-lib/<product>'"
+    echo "  src: default '/arteria/arteria-lib/<product>'"
+    echo "  arteria-src: default '/arteria/arteria-lib/arteria'"
     echo "  installpath: default '/opt/<product>'"
 }
 
@@ -27,7 +28,8 @@ user=$2
 group=$3
 type=$4
 source=$5
-installpath=$6
+source_arteria=$6
+installpath=$7
 
 if [ "$product" == "" ]; then
     echo "You must supply a product"
@@ -51,6 +53,10 @@ fi
 
 if [ "$source" == "" ]; then
     source="/arteria/arteria-lib/$product"
+fi
+
+if [ "$source_arteria" == "" ]; then
+    source_arteria="/arteria/arteria-lib/arteria"
 fi
 
 if [ "$installpath" == "" ]; then
@@ -80,10 +86,12 @@ source $installpath/bin/activate
 
 if [ "$type" == "dev" ]; then
     echo "Installing the $product package in development mode"
+    pip install -e file://$source_arteria -r $source_arteria/requirements/dev
     pip install -e file://$source -r $source/requirements/dev
 else
     # TODO: Support prod
     echo "NOTE: Installing the $product package in development mode" >&2
+    pip install -e file://$source_arteria -r $source_arteria/requirements/prod
     pip install -e file://$source -r $source/requirements/prod
 fi
 
