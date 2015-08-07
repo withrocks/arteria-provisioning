@@ -103,11 +103,12 @@ supervisorconfig_source=/arteria/arteria-provisioning/services/$product.conf
 supervisorconfig_target=/etc/supervisor/conf.d/$product.conf
 
 if [ "$type" == "dev" ]; then
-    echo "Adding symbolic links to the supervisor configs"
-    ln -fs $supervisorconfig_source $supervisorconfig_target
+    additional_args=" --debug"
 else
-    cp -fv $supervisorconfig_source $supervisorconfig_target
+    additional_args=""
 fi
+
+sed "s/{{additional_args}}/$additional_args/" $supervisorconfig_source > $supervisorconfig_target
 
 echo "Update the supervisor configuration"
 supervisorctl update

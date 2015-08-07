@@ -20,9 +20,15 @@ pip install virtualenv
 echo "Installing supervisor"
 apt-get -y install supervisor
 
-echo "Installing the runfolder package"
-cd /arteria/arteria-lib/runfolder/scripts/
-./install vagrant vagrant
+echo "Install the arteria core library"
+source_path=/arteria/arteria-lib
+pip install -e file://$source_path/arteria -r $source_path/arteria/requirements/dev
+
+echo "Install services"
+product=runfolder
+pushd /arteria/arteria-provisioning/services
+./install-service $product vagrant vagrant dev $source_path/$product $source_path/arteria /opt/$product 
+popd
 
 EOF
 
