@@ -5,10 +5,6 @@
 FROM arteria/dependencies:1
 LABEL Description="Monolithic test image for all Arteria services" Version="0.1"
 
-# We might want to do this in a layer higher up; or add it
-RUN mkdir -pv /srv/samplesheet/processing/ && mkdir /var/log/arteria && mkdir /opt/runfolder
-RUN touch /var/log/arteria/runfolder.log
-
 # bcl2fast service dependency
 RUN yum install -y http://support.illumina.com/content/dam/illumina-support/documents/downloads/software/bcl2fastq/bcl2fastq2-v2.17.1.14-Linux-x86_64.rpm
 
@@ -32,6 +28,10 @@ EXPOSE 10800
 # services on the running container. We presume that
 # /arteria/arteria-{lib,packs,provisioning} have been mounted from the host
 COPY build_data/install_services /root/install_services
+
+# Required to exist for runfolder service 
+RUN mkdir /opt/runfolder
+RUN touch /var/log/arteria/runfolder.log
 
 # Start the serviced that takes care of our processes
 CMD service supervisord start
