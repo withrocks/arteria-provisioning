@@ -32,6 +32,9 @@ RUN chmod +x /etc/init.d/supervisord && chkconfig --add supervisord
 # Some various things good to have
 RUN yum install -y screen sudo which  
 
+# Create some extra directories we need 
+RUN mkdir -pv /srv/samplesheet/processing && mkdir -pv /var/log/arteria
+
 # Start the supervisord for the sake of our children
 #CMD ["supervisord", "-c", "/etc/supervisor.conf"]
 CMD service supervisord start
