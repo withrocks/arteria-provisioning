@@ -1,0 +1,41 @@
+FROM arteria/dependencies:1
+LABEL Descrition="Monolithic test image for all Arteria services" Version="0.1"
+
+# Run everything as root for now
+# USER
+
+# We might want to do this in a layer higher up; or add it
+RUN mkdir -pv /srv/samplesheet/processing/ && mkdir /var/log/arteria && mkdir /opt/runfolder
+
+# Make source code available for installation.
+# If we want to be able to more interactively load the source code then the
+# container needs to override these mount points.
+COPY arteria-lib/ /arteria/arteria-lib/
+COPY arteria-packs/ /arteria/arteria-packs
+COPY arteria-provisioning/ /arteria/arteria-provisioning
+
+# Install the runfolder package
+WORKDIR /arteria/arteria-provisioning/services
+# Kinda of a hack. We need to have the supervisord running while installing
+RUN service supervisord restart && ./install-service runfolder root root dev /arteria/arteria-lib/runfolder /arteria/arteria-lib/arteria /opt/runfolder
+
+# Install the siswrap package
+WORKDIR /arteria/arteria-lib/siswrap/scripts/
+RUN ./install
+
+# Deploy SSH keys
+#COPY
+
+#ENV ARTERIA_TEST=1
+
+# We need to open up the ports that the container needs to expose
+# We don't really need to do this here though, it is mostly for linking
+# containers, or when we want to map them with -P, but we want to use
+# -p to get specific mappings at run time for the container.
+EXPOSE 8888
+EXPOSE 10900
+EXPOSE 10800
+
+# Start the serviced that takes care of our processes
+CMD service supervisord start
+#CMD ["supervisord", "-c", "/etc/supervisor.conf"]
