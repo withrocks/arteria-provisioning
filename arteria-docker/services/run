@@ -4,8 +4,6 @@
 #
 # We need to mount the source code from the host to e.g. be able to
 # install the services easily.
-#
-# If launc
 
 set -e
 
