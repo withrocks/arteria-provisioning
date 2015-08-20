@@ -101,6 +101,11 @@ Vagrant.configure(2) do |config|
 
     testtank.vm.box = "puppetlabs/centos-6.6-64-puppet"
 
+    stackstorm.vm.provider "virtualbox" do |v|
+      v.memory = 8000
+      v.cpus = 4
+    end
+
     testtank.vm.hostname = "testarteria1"
     testtank.vm.network :private_network, ip: '192.168.42.43'
 
