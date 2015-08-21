@@ -14,8 +14,6 @@ mkdir -pv /data/scratch
 
 mkdir -pv /var/log/arteria/
 
-
-
 yum groupinstall -y development
 
 # Install newer version of Python; repo version is too old in centos
@@ -57,6 +55,8 @@ pushd /arteria/arteria-provisioning/services
 ./install-service $product vagrant vagrant dev $source_path/$product $source_path/arteria /opt/$product 
 popd
 
+sudo /etc/init.d/iptables stop
+
 EOF
 
 Vagrant.configure(2) do |config|
@@ -87,6 +87,7 @@ Vagrant.configure(2) do |config|
     stackstorm.vm.provider "virtualbox" do |v|
       v.memory = 2048
       v.cpus = 2
+      v.customize ["modifyvm", :id, "--ioapic", "on"]
     end
 
     stackstorm.vm.provision "ansible" do |ansible|
@@ -101,9 +102,10 @@ Vagrant.configure(2) do |config|
 
     testtank.vm.box = "puppetlabs/centos-6.6-64-puppet"
 
-    stackstorm.vm.provider "virtualbox" do |v|
+    testtank.vm.provider "virtualbox" do |v|
       v.memory = 8000
       v.cpus = 4
+      v.customize ["modifyvm", :id, "--ioapic", "on"]
     end
 
     testtank.vm.hostname = "testarteria1"
@@ -112,6 +114,7 @@ Vagrant.configure(2) do |config|
     testtank.vm.synced_folder "../arteria-packs/", "/arteria/arteria-packs"
     testtank.vm.synced_folder "../arteria-lib/", "/arteria/arteria-lib"
     testtank.vm.synced_folder "../arteria-provisioning/", "/arteria/arteria-provisioning"
+    #testtank.vm.synced_folder "/data/arteria_test_data/", "/data/testarteria1/mon1/"
 
     config.vm.provision "file",
         source: "arteria-docker/dependencies/build_data/supervisord.conf",
