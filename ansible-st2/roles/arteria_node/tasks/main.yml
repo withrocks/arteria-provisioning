@@ -1,3 +1,4 @@
 ---
 
-- include: core_tasks.yml
+#- include: core_tasks.yml
+- include: arteria_bcl2fastq.yml
