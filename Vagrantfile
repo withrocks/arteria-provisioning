@@ -116,19 +116,11 @@ Vagrant.configure(2) do |config|
     testtank.vm.synced_folder "../arteria-provisioning/", "/arteria/arteria-provisioning"
     #testtank.vm.synced_folder "/data/arteria_test_data/", "/data/testarteria1/mon1/"
 
-    config.vm.provision "file",
-        source: "arteria-docker/dependencies/build_data/supervisord.conf",
-        destination: "/tmp/supervisord.conf"
+    testtank.vm.provision "ansible" do |ansible|
+      ansible.playbook = "ansible-st2/playbooks/arteriaexpress.yaml"
+      ansible.inventory_path = "ansible-st2/inventories/test_inventory"
+    end
 
-    config.vm.provision "shell", inline: "cp /tmp/supervisord.conf /etc/supervisord.conf", privileged: true
-
-    config.vm.provision "file",
-        source: "arteria-docker/dependencies/build_data/supervisord_init",
-        destination: "/tmp/supervisord_init"
-
-    config.vm.provision "shell", inline: "cp /tmp/supervisord_init /etc/init.d/supervisord", privileged: true
-
-    testtank.vm.provision "shell", inline: $script, privileged: true
   end
 
   # Deploy ssh keys to all host to ensure they have the

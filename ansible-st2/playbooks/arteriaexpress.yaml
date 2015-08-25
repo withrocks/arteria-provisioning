@@ -22,3 +22,10 @@
     - mistral
     - st2web
     - arteria 
+
+- name: Setup the testarteria1 node
+  remote_user: vagrant
+  sudo: true
+  hosts: nodes
+  roles:
+    - arteria_node
