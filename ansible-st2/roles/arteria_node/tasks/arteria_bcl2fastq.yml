@@ -1,0 +1,18 @@
+---
+
+#TODO Ensure all this is versioned!
+
+- name: install illumina bcl2fastq
+  yum:
+    name: http://support.illumina.com/content/dam/illumina-support/documents/downloads/software/bcl2fastq/bcl2fastq2-v2.17.1.14-Linux-x86_64.rpm
+    state: present
+
+- name: install arteria-bcl2fastq requirements
+  pip:
+    requirements: https://raw.githubusercontent.com/arteria-project/arteria-bcl2fastq/master/requirements.txt
+    executable: /usr/local/bin/pip
+
+- name: install arteria-bcl2fastq
+  pip:
+    name: git+https://github.com/johandahlberg/arteria-bcl2fastq.git#egg=Package
+    executable: /usr/local/bin/pip
