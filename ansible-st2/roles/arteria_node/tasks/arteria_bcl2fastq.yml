@@ -7,12 +7,29 @@
     name: http://support.illumina.com/content/dam/illumina-support/documents/downloads/software/bcl2fastq/bcl2fastq2-v2.17.1.14-Linux-x86_64.rpm
     state: present
 
+- name: get arteria-bcl2fastq from github
+  git:
+    repo: https://github.com/arteria-project/arteria-bcl2fastq.git
+    dest: /usr/src/arteria-bcl2fastq
+
 - name: install arteria-bcl2fastq requirements
   pip:
-    requirements: https://raw.githubusercontent.com/arteria-project/arteria-bcl2fastq/master/requirements.txt
-    executable: /usr/local/bin/pip
+      requirements: /usr/src/arteria-bcl2fastq/requirements.txt
+      chdir: /usr/src/arteria-bcl2fastq
+      virtualenv: /opt/arteria/arteria-bcl2fastq-env/
+      virtualenv_command: /usr/local/bin/virtualenv
+      state: present
+      executable: /opt/arteria/arteria-bcl2fastq-env/bin/pip
 
+# Install into virtualenv.
 - name: install arteria-bcl2fastq
   pip:
-    name: git+https://github.com/johandahlberg/arteria-bcl2fastq.git#egg=Package
-    executable: /usr/local/bin/pip
+      name: .
+      chdir: /usr/src/arteria-bcl2fastq
+      virtualenv: /opt/arteria/arteria-bcl2fastq-env/
+      virtualenv_command: /usr/local/bin/virtualenv
+      state: present
+      executable: /opt/arteria/arteria-bcl2fastq-env/bin/pip
+
+
+# place config in /etc/arteria/
