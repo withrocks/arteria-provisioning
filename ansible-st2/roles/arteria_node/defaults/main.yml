@@ -1,0 +1,5 @@
+---
+arteria_bcl2fastq_config: /etc/arteria/bcl2fastq.config.yaml
+runfolder_path: /data/{{ ansible_nodename }}/runfolders
+bcl2fastq_logs_path: /var/log/bcl2fastq/
+arteria_user: vagrant
