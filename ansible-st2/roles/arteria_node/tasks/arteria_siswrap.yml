@@ -109,36 +109,14 @@
   file: state=link src={{ sisyphus_path }}/sisyphus-latest/sisyphus_qc.xml dest=/srv/qc_config/sisyphus_qc.xml
   tags: siswrap
 
-
-#     82 if [ "$type" == "dev" ]; then
-#     83     echo "Installing the siswrap package in development mode"
-#     84     pip install -e file://$source -r $source/requirements/dev
-#     85 else
-#     86     # TODO: Support prod#
-#     87     echo "NOTE: Installing the siswrap package in development mode" >&2
-#     88     pip install -e file://$source -r $source/requirements/prod
-
-
 # FIXME: this will fail because we are referencing prod req
 #- name: install arteria-siswrap requirements
 #  pip:
 #    requirements: https://raw.githubusercontent.com/arteria-project/arteria-siswrap/master/requirements/dev
 #    executable: /usr/local/bin/pip
 
-# efter att vi skapat virtualenv så behöver använda dess pip för att installera
-# för att få grejerna på rätt ställe.
-
 # FIXME: undersök hur vi kan få bash att fungera så vi slipper ange
 #/usr/local/bin/ hela tiden.
-
-#virtualenv $installpath
-# echo "Switching to the '$installpath' virtualenv"
-#     80 source $installpath/bin/activate
-
-#- name: install arteria-siswrap
-#  pip:
-#    name: git+https://github.com/arteria-project/arteria-siswrap.git#egg=Package
-#    executable: /usr/local/bin/pip
 
 
 - name: get arteria-siswrap from github
