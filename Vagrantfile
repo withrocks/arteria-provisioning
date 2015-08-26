@@ -52,7 +52,7 @@ echo "Install services"
 source_path=/arteria/arteria-lib
 product=runfolder
 pushd /arteria/arteria-provisioning/services
-./install-service $product vagrant vagrant dev $source_path/$product $source_path/arteria /opt/$product 
+./install-service $product vagrant vagrant dev $source_path/$product $source_path/arteria /opt/$product
 popd
 
 sudo /etc/init.d/iptables stop
@@ -76,7 +76,10 @@ Vagrant.configure(2) do |config|
 
     stackstorm.vm.synced_folder "../arteria-packs/", "/opt/stackstorm/packs/arteria-packs"
     stackstorm.vm.synced_folder "../arteria-packs/", "/arteria/arteria-packs"
-    stackstorm.vm.synced_folder "../arteria-lib/", "/arteria/arteria-lib"
+    stackstorm.vm.synced_folder "../arteria-core/", "/arteria/arteria-core"
+    stackstorm.vm.synced_folder "../arteria-bcl2fastq/", "/arteria/arteria-bcl2fastq"
+    stackstorm.vm.synced_folder "../arteria-siswrap/", "/arteria/arteria-siswrap"
+    stackstorm.vm.synced_folder "../arteria-runfolder/", "/arteria/arteria-runfolder"
     stackstorm.vm.synced_folder "../arteria-provisioning/", "/arteria/arteria-provisioning"
 
     # Forwarding these ports is required for the webui to work
@@ -112,7 +115,10 @@ Vagrant.configure(2) do |config|
     testtank.vm.network :private_network, ip: '192.168.42.43'
 
     testtank.vm.synced_folder "../arteria-packs/", "/arteria/arteria-packs"
-    testtank.vm.synced_folder "../arteria-lib/", "/arteria/arteria-lib"
+    testtank.vm.synced_folder "../arteria-core/", "/arteria/arteria-core"
+    testtank.vm.synced_folder "../arteria-bcl2fastq/", "/arteria/arteria-bcl2fastq"
+    testtank.vm.synced_folder "../arteria-siswrap/", "/arteria/arteria-siswrap"
+    testtank.vm.synced_folder "../arteria-runfolder/", "/arteria/arteria-runfolder"
     testtank.vm.synced_folder "../arteria-provisioning/", "/arteria/arteria-provisioning"
     #testtank.vm.synced_folder "/data/arteria_test_data/", "/data/testarteria1/mon1/"
 

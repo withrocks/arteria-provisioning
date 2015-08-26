@@ -1,0 +1,134 @@
+---
+
+#TODO Ensure all this is versioned!
+
+- name: install sisyphus dependencies from centos repository
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - epel-release
+    - dos2unix
+    - gnuplot
+    - PyXML
+    - ImageMagick
+    - libxslt-devel
+    - libxml2-devel
+    - libxml2-devel
+    - ncurses-devel
+    - libtiff-devel
+    - perl-XML-LibXML
+    - perl-XML-LibXML-Common
+    - perl-XML-NamespaceSupport
+    - perl-XML-SAX
+    - perl-XML-Simple
+    - perl-Archive-Zip
+    - perl-CPAN
+    - git
+  tags: siswrap
+
+- name: install sisyphus dependencies from epel repository
+  yum:
+      name: "{{ item }}"
+      state: present
+      enablerepo: epel
+  with_items:
+    - perl-PDL
+    - perl-PerlIO-gzip
+  tags: siswrap
+
+- name: download cpanm
+  get_url: url=http://cpanmin.us dest=/tmp/cpanm_install.pl
+  tags: siswrap
+
+- name: install cpanm
+  command: perl /tmp/cpanm_install.pl --sudo App::cpanminus
+  tags: siswrap
+
+- name: install File::NFSLock
+  cpanm: name=File::NFSLock
+  tags: siswrap
+
+# Temporary copy of QC criteria; atm the QCWrapper tries to copy this
+# into the runfolder; perhaps we should have something else do this.
+#mkdir -p /srv/qc_config/
+#cp $depspath/sisyphus/sisyphus_qc.xml /srv/qc_config/sisyphus_qc.xml
+#cp $source/config/siswrap.config $installpath/etc/
+
+- name: create sisyphus code folder
+  file: path={{ sisyphus_path }} state=directory
+  tags: siswrap
+
+- name: get sisyphus code
+  git: repo={{ sisyphus_git_repo }} version={{ sisyphus_repo_branch }} dest={{ sisyphus_path }}/sisyphus-tmp
+  tags: siswrap
+
+- name: get sisyphus version
+  command: git --git-dir={{ sisyphus_path }}/sisyphus-tmp/.git describe --tags
+  register: sisyphus_version
+  tags: siswrap
+
+- name: check if latest sisyphus version folder exists
+  stat: path={{ sisyphus_path }}/sisyphus-{{ sisyphus_version.stdout }}
+  register: latest_sisyphus_version_folder
+  tags: siswrap
+
+- name: copy latest version to correct named folder
+  command: cp -r {{ sisyphus_path }}/sisyphus-tmp {{ sisyphus_path }}/sisyphus-{{ sisyphus_version.stdout }}
+  when: not latest_sisyphus_version_folder.stat.exists
+  tags: siswrap
+
+- name: remove sisyphus-tmp
+  file: path={{ sisyphus_path }}/sisyphus-tmp state=absent
+  tags: siswrap
+
+- name: ensure latest version is globally readable
+  file: state=directory path={{ sisyphus_path }}/sisyphus-{{ sisyphus_version.stdout }} mode=775 recurse=yes
+  tags: siswrap
+
+- name: setup link to sisyphus latest
+  file: state=link src={{ sisyphus_path }}/sisyphus-{{ sisyphus_version.stdout }} dest={{ sisyphus_path }}/sisyphus-latest mode=775
+  tags: siswrap
+
+#- name: set acl permissions on sisyphus code folder
+#  command: setfacl -R -m u:{{ biotank_main_user.name }}:rwx {{ sisyphus_path }}
+#  tags: siswrap
+
+- name: Deploy Sisyphus program config
+  file: state=link src={{ sisyphus_path }}/sisyphus-latest/sisyphus.yml dest=/srv/program_config/sisyphus.yml
+  tags: siswrap
+
+- name: Deploy Sisyphus quality control config
+  file: state=link src={{ sisyphus_path }}/sisyphus-latest/sisyphus_qc.xml dest=/srv/program_config/sisyphus_qc.xml
+  tags: siswrap
+
+
+#     82 if [ "$type" == "dev" ]; then
+#     83     echo "Installing the siswrap package in development mode"
+#     84     pip install -e file://$source -r $source/requirements/dev
+#     85 else
+#     86     # TODO: Support prod#
+#     87     echo "NOTE: Installing the siswrap package in development mode" >&2
+#     88     pip install -e file://$source -r $source/requirements/prod
+
+
+# FIXME: this will fail because we are referencing prod req
+#- name: install arteria-siswrap requirements
+#  pip:
+#    requirements: https://raw.githubusercontent.com/arteria-project/arteria-siswrap/master/requirements/dev
+#    executable: /usr/local/bin/pip
+
+# efter att vi skapat virtualenv så behöver använda dess pip för att installera
+# för att få grejerna på rätt ställe.
+
+# FIXME: undersök hur vi kan få bash att fungera så vi slipper ange
+#/usr/local/bin/ hela tiden.
+
+#virtualenv $installpath
+# echo "Switching to the '$installpath' virtualenv"
+#     80 source $installpath/bin/activate
+
+#- name: install arteria-siswrap
+#  pip:
+#    name: git+https://github.com/arteria-project/arteria-siswrap.git#egg=Package
+#    executable: /usr/local/bin/pip

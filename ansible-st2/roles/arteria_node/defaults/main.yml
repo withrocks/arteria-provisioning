@@ -1,0 +1,7 @@
+---
+
+install_path: /opt/arteria/
+siswrap_path: "{{ install_path }}/arteria-siswrap"
+sisyphus_path: "{{ siswrap_path }}/deps/sisyphus/"
+sisyphus_git_repo: https://github.com/Molmed/sisyphus.git
+sisyphus_repo_branch: master
