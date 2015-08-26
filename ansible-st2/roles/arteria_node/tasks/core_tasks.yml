@@ -43,7 +43,7 @@
     copy: no
 
 - name: install setup-tools
-  shell: /usr/local/bin/python2.7 setup.py install && touch setuptools-1.4.2
+  shell: /usr/local/bin/python2.7 setup.py install && touch /usr/src/setuptools-1.4.2/ansible_state_completed
   args:
     chdir: /usr/src/setuptools-1.4.2
     creates: /usr/src/setuptools-1.4.2/ansible_state_completed
