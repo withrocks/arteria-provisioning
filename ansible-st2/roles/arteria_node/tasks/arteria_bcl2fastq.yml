@@ -21,7 +21,6 @@
       state: present
       executable: /opt/arteria/arteria-bcl2fastq-env/bin/pip
 
-# Install into virtualenv.
 - name: install arteria-bcl2fastq
   pip:
       name: .
@@ -31,5 +30,28 @@
       state: present
       executable: /opt/arteria/arteria-bcl2fastq-env/bin/pip
 
+- name: ensure bcl2fastq log dir exists
+  file:
+    state: directory
+    path: "{{ bcl2fastq_logs_path }}"
+    owner: "{{ arteria_user }}"
 
-# place config in /etc/arteria/
+- name: ensure /etc/arteria dir exists
+  file:
+    state: directory
+    path: /etc/arteria
+
+- name: place arteria-bcl2fastq config file in "{{ arteria_bcl2fastq_config }}"
+  template:
+    src: bcl2fastq.config.yaml.j2
+    dest: "{{ arteria_bcl2fastq_config }}"
+
+- name: deploy arteria-bcl2fastq supervisord config
+  template:
+    src: supervisor_arteria_bcl2fastq.conf.j2
+    dest: /etc/supervisor/conf.d/bcl2fastq.conf
+
+- supervisorctl:
+    name: bcl2fastq-ws
+    state: started
+    supervisorctl_path: /usr/local/bin/supervisorctl
