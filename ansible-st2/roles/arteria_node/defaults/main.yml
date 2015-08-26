@@ -5,3 +5,8 @@ siswrap_path: "{{ install_path }}/arteria-siswrap"
 sisyphus_path: "{{ siswrap_path }}/deps/sisyphus/"
 sisyphus_git_repo: https://github.com/Molmed/sisyphus.git
 sisyphus_repo_branch: master
+
+arteria_bcl2fastq_config: /etc/arteria/bcl2fastq.config.yaml
+runfolder_path: /data/{{ ansible_nodename }}/runfolders
+bcl2fastq_logs_path: /var/log/bcl2fastq/
+arteria_user: vagrant
