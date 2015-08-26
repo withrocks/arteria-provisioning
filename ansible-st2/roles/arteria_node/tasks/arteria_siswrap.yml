@@ -49,11 +49,6 @@
   cpanm: name=File::NFSLock
   tags: siswrap
 
-# Temporary copy of QC criteria; atm the QCWrapper tries to copy this
-# into the runfolder; perhaps we should have something else do this.
-#mkdir -p /srv/qc_config/
-#cp $depspath/sisyphus/sisyphus_qc.xml /srv/qc_config/sisyphus_qc.xml
-#cp $source/config/siswrap.config $installpath/etc/
 
 - name: create sisyphus code folder
   file: path={{ sisyphus_path }} state=directory
@@ -94,12 +89,24 @@
 #  command: setfacl -R -m u:{{ biotank_main_user.name }}:rwx {{ sisyphus_path }}
 #  tags: siswrap
 
-- name: Deploy Sisyphus program config
-  file: state=link src={{ sisyphus_path }}/sisyphus-latest/sisyphus.yml dest=/srv/program_config/sisyphus.yml
+
+# Temporary copy of QC criteria; atm the QCWrapper tries to copy this
+# into the runfolder; perhaps we should have something else do this.
+#mkdir -p /srv/qc_config/
+#cp $depspath/sisyphus/sisyphus_qc.xml /srv/qc_config/sisyphus_qc.xml
+#cp $source/config/siswrap.config $installpath/etc/
+
+
+#- name: Deploy Sisyphus program config
+#  file: state=link src={{ sisyphus_path }}/sisyphus-latest/sisyphus.yml dest=/srv/program_config/sisyphus.yml
+#  tags: siswrap
+
+- name: create /srv/qc_config folder
+  file: path=/srv/qc_config state=directory
   tags: siswrap
 
 - name: Deploy Sisyphus quality control config
-  file: state=link src={{ sisyphus_path }}/sisyphus-latest/sisyphus_qc.xml dest=/srv/program_config/sisyphus_qc.xml
+  file: state=link src={{ sisyphus_path }}/sisyphus-latest/sisyphus_qc.xml dest=/srv/qc_config/sisyphus_qc.xml
   tags: siswrap
 
 
@@ -132,3 +139,29 @@
 #  pip:
 #    name: git+https://github.com/arteria-project/arteria-siswrap.git#egg=Package
 #    executable: /usr/local/bin/pip
+
+
+- name: get arteria-siswrap from github
+  git:
+    repo: https://github.com/arteria-project/arteria-siswrap.git
+    dest: /usr/src/arteria-siswrap
+
+- name: install arteria-siswrap requirements
+  pip:
+      requirements: /usr/src/arteria-siswrap/requirements/dev
+      chdir: /usr/src/arteria-siswrap
+      virtualenv: /opt/arteria/arteria-siswrap-env/
+      virtualenv_command: /usr/local/bin/virtualenv
+      state: present
+      executable: /opt/arteria/arteria-siswrap-env/bin/pip
+      extra_args: --no-cache-dir
+
+# Install into virtualenv.
+- name: install arteria-siswrap
+  pip:
+      name: .
+      chdir: /usr/src/arteria-siswrap
+      virtualenv: /opt/arteria/arteria-siswrap-env/
+      virtualenv_command: /usr/local/bin/virtualenv
+      state: present
+      executable: /opt/arteria/arteria-siswrap-env/bin/pip
