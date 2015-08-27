@@ -1,5 +1,5 @@
 [program:bcl2fastq-ws]
 process_name = bcl2fastq-ws-%(process_num)s
 command = /opt/arteria/arteria-bcl2fastq-env/bin/bcl2fastq-ws
-              --config {{ arteria_bcl2fastq_config }}
+              --config {{ arteria_bcl2fastq_config }} --debug
 numprocs = 1

@@ -88,7 +88,7 @@
     name: supervisord
     state: started
 
-- name: ensure arteria log dir exists
+- name: ensure /var/log/arteria dir exists
   file:
     state: directory
     path: /var/log/arteria
@@ -97,4 +97,7 @@
 - name: ensure /etc/arteria dir exists
   file:
     state: directory
-    path: /etc/arteria    
+    path: /etc/arteria
+
+- name: disable iptables
+  service: name=iptables state=stopped enabled=no
