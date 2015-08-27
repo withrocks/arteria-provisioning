@@ -1,6 +1,8 @@
 ---
 
-#TODO Ensure all this is versioned!
+# TODO Ensure all this is versioned!
+# TODO: Investigate whether or not /usr/local/bin/ is in the path.
+#       I get it, but not JD.
 
 - name: install sisyphus dependencies from centos repository
   yum:
@@ -49,7 +51,6 @@
   cpanm: name=File::NFSLock
   tags: siswrap
 
-
 - name: create sisyphus code folder
   file: path={{ sisyphus_path }} state=directory
   tags: siswrap
@@ -85,22 +86,15 @@
   file: state=link src={{ sisyphus_path }}/sisyphus-{{ sisyphus_version.stdout }} dest={{ sisyphus_path }}/sisyphus-latest mode=775
   tags: siswrap
 
-#- name: set acl permissions on sisyphus code folder
-#  command: setfacl -R -m u:{{ biotank_main_user.name }}:rwx {{ sisyphus_path }}
-#  tags: siswrap
+- name: set acl permissions on sisyphus code folder
+  command: setfacl -R -m u:{{ arteria_user }}:rwx {{ sisyphus_path }}
+  tags: siswrap
 
-
-# Temporary copy of QC criteria; atm the QCWrapper tries to copy this
-# into the runfolder; perhaps we should have something else do this.
-#mkdir -p /srv/qc_config/
-#cp $depspath/sisyphus/sisyphus_qc.xml /srv/qc_config/sisyphus_qc.xml
-#cp $source/config/siswrap.config $installpath/etc/
-
-
-#- name: Deploy Sisyphus program config
-#  file: state=link src={{ sisyphus_path }}/sisyphus-latest/sisyphus.yml dest=/srv/program_config/sisyphus.yml
-#  tags: siswrap
-
+# qcValidateRun.pl looks for sisyphus_qc.xml in the runfolder, if not
+# manually specified on the command line. QCWrapper will at the moment
+# only try to copy /srv/qc_config/sisyphus_qc.xml into the runfolder.
+# So for now we copy the QC criteria from Sisyphus into the qc_config
+# folder. This might be done in some other way in the future.
 - name: create /srv/qc_config folder
   file: path=/srv/qc_config state=directory
   tags: siswrap
@@ -108,16 +102,6 @@
 - name: Deploy Sisyphus quality control config
   file: state=link src={{ sisyphus_path }}/sisyphus-latest/sisyphus_qc.xml dest=/srv/qc_config/sisyphus_qc.xml
   tags: siswrap
-
-# FIXME: this will fail because we are referencing prod req
-#- name: install arteria-siswrap requirements
-#  pip:
-#    requirements: https://raw.githubusercontent.com/arteria-project/arteria-siswrap/master/requirements/dev
-#    executable: /usr/local/bin/pip
-
-# FIXME: undersök hur vi kan få bash att fungera så vi slipper ange
-#/usr/local/bin/ hela tiden.
-
 
 - name: get arteria-siswrap from github
   git:
@@ -132,7 +116,10 @@
       virtualenv_command: /usr/local/bin/virtualenv
       state: present
       executable: /opt/arteria/arteria-siswrap-env/bin/pip
-      extra_args: --no-cache-dir
+      extra_args: "--no-cache-dir"
+      # FIXME: Sometimes the md5 checksum fails, seems to be fixed by removing
+      # ~root/.cache/pip. According to docs "--no-cache-dir" should make pip
+      # ignore this cache, but it doesn't seem to work via Ansible?
 
 # Install into virtualenv.
 - name: install arteria-siswrap
@@ -143,3 +130,18 @@
       virtualenv_command: /usr/local/bin/virtualenv
       state: present
       executable: /opt/arteria/arteria-siswrap-env/bin/pip
+
+- name: deploying arteria-siswrap config
+  template:
+    src: siswrap.config.j2
+    dest: "{{ arteria_siswrap_config }}"
+
+- name: deploy arteria-siswrap supervisord config
+  template:
+    src: supervisor_arteria_siswrap.conf.j2
+    dest: /etc/supervisor/conf.d/siswrap.conf
+
+- supervisorctl:
+    name: siswrap-ws
+    state: restarted
+    supervisorctl_path: /usr/local/bin/supervisorctl

@@ -36,11 +36,6 @@
     path: "{{ bcl2fastq_logs_path }}"
     owner: "{{ arteria_user }}"
 
-- name: ensure /etc/arteria dir exists
-  file:
-    state: directory
-    path: /etc/arteria
-
 - name: place arteria-bcl2fastq config file in "{{ arteria_bcl2fastq_config }}"
   template:
     src: bcl2fastq.config.yaml.j2
@@ -53,5 +48,5 @@
 
 - supervisorctl:
     name: bcl2fastq-ws
-    state: started
+    state: restarted
     supervisorctl_path: /usr/local/bin/supervisorctl

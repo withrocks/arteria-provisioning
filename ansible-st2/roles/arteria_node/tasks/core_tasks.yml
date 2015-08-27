@@ -87,3 +87,14 @@
   service:
     name: supervisord
     state: started
+
+- name: ensure arteria log dir exists
+  file:
+    state: directory
+    path: /var/log/arteria
+    owner: "{{ arteria_user }}"
+
+- name: ensure /etc/arteria dir exists
+  file:
+    state: directory
+    path: /etc/arteria    

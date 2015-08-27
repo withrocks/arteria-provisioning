@@ -1,0 +1,5 @@
+[program:siswrap-ws]
+process_name = siswrap-ws-%(process_num)s
+command = /opt/arteria/arteria-siswrap-env/bin/siswrap-ws
+              --config {{ arteria_siswrap_config }}
+numprocs = 1
