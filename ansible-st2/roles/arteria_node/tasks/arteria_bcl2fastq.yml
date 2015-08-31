@@ -16,19 +16,19 @@
   pip:
       requirements: /usr/src/arteria-bcl2fastq/requirements.txt
       chdir: /usr/src/arteria-bcl2fastq
-      virtualenv: /opt/arteria/arteria-bcl2fastq-env/
+      virtualenv: arteria_bcl2fastq_env_root
       virtualenv_command: /usr/local/bin/virtualenv
       state: present
-      executable: /opt/arteria/arteria-bcl2fastq-env/bin/pip
+      executable: "{{ arteria_bcl2fastq_env_root }}/bin/pip"
 
 - name: install arteria-bcl2fastq
   pip:
       name: .
       chdir: /usr/src/arteria-bcl2fastq
-      virtualenv: /opt/arteria/arteria-bcl2fastq-env/
+      virtualenv: arteria_bcl2fastq_env_root
       virtualenv_command: /usr/local/bin/virtualenv
       state: present
-      executable: /opt/arteria/arteria-bcl2fastq-env/bin/pip
+      executable: "{{ arteria_bcl2fastq_env_root }}/bin/pip"
 
 - name: ensure bcl2fastq log dir exists
   file:
@@ -36,10 +36,10 @@
     path: "{{ bcl2fastq_logs_path }}"
     owner: "{{ arteria_user }}"
 
-- name: ensure /etc/arteria dir exists
+- name: ensure /etc/arteria/bcl2fastq dir exists
   file:
     state: directory
-    path: /etc/arteria
+    path: "{{ arteria_bcl2fastq_config_root}}"
 
 - name: place arteria-bcl2fastq config file in "{{ arteria_bcl2fastq_config }}"
   template:
@@ -53,5 +53,13 @@
 
 - supervisorctl:
     name: bcl2fastq-ws
-    state: started
+    state: restarted
     supervisorctl_path: /usr/local/bin/supervisorctl
+
+# TODO: Make this prettier
+- name: create bcl2fastq-ws-test for easy integration testing
+  command: bash -c "echo 'source {{ arteria_bcl2fastq_env_root }}/bin/activate' > /usr/local/bin/bcl2fastq-ws-test && echo 'nosetests /arteria/arteria-bcl2fastq/tests/integration' >> /usr/local/bin/bcl2fastq-ws-test && chmod +x /usr/local/bin/bcl2fastq-ws-test"
+
+- name: running integration tests for bcl2fastq...
+  shell: sleep 2 && /usr/local/bin/bcl2fastq-ws-test
+  ignore_errors: true

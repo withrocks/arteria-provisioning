@@ -30,7 +30,6 @@
     chdir: /usr/src/Python-2.7.10
     creates: /usr/src/Python-2.7.10/ansible_state_completed
 
-
 - name: download python setup-tools
   get_url:
     url: https://pypi.python.org/packages/source/s/setuptools/setuptools-1.4.2.tar.gz
@@ -89,3 +88,17 @@
     name: supervisord
     state: started
 
+- name: ensure /var/log/arteria dir exists
+  file:
+    state: directory
+    path: /var/log/arteria
+    owner: "{{ arteria_user }}"
+
+- name: ensure /etc/arteria dir exists
+  file:
+    state: directory
+    path: /etc/arteria
+
+- name: disable iptables
+  service: name=iptables state=stopped enabled=no
+  when: arteria_disable_iptables
