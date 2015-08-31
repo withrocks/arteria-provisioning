@@ -101,3 +101,4 @@
 
 - name: disable iptables
   service: name=iptables state=stopped enabled=no
+  when: arteria_disable_iptables

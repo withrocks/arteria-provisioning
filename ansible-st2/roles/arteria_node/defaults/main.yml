@@ -1,5 +1,7 @@
 ---
 
+arteria_disable_iptables: true 
+
 install_path: /opt/arteria/
 
 arteria_siswrap_env_root: /opt/arteria/arteria-siswrap-env
