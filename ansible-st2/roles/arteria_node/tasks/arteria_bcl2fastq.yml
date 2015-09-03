@@ -14,9 +14,9 @@
 
 - name: install arteria-bcl2fastq requirements
   pip:
-      requirements: /usr/src/arteria-bcl2fastq/requirements.txt
+      requirements: /usr/src/arteria-bcl2fastq/requirements/dev
       chdir: /usr/src/arteria-bcl2fastq
-      virtualenv: arteria_bcl2fastq_env_root
+      virtualenv: "{{ arteria_bcl2fastq_env_root }}"
       virtualenv_command: /usr/local/bin/virtualenv
       state: present
       executable: "{{ arteria_bcl2fastq_env_root }}/bin/pip"
@@ -25,7 +25,7 @@
   pip:
       name: .
       chdir: /usr/src/arteria-bcl2fastq
-      virtualenv: arteria_bcl2fastq_env_root
+      virtualenv: "{{ arteria_bcl2fastq_env_root }}"
       virtualenv_command: /usr/local/bin/virtualenv
       state: present
       executable: "{{ arteria_bcl2fastq_env_root }}/bin/pip"
@@ -41,10 +41,15 @@
     state: directory
     path: "{{ arteria_bcl2fastq_config_root}}"
 
-- name: place arteria-bcl2fastq config file in "{{ arteria_bcl2fastq_config }}"
+- name: place arteria-bcl2fastq config file in "{{ arteria_bcl2fastq_app_config }}"
   template:
-    src: bcl2fastq.config.yaml.j2
-    dest: "{{ arteria_bcl2fastq_config }}"
+    src: bcl2fastq_app.config.j2
+    dest: "{{ arteria_bcl2fastq_app_config }}"
+
+- name: place arteria-bcl2fastq config file in "{{ arteria_bcl2fastq_logger_config }}"
+  template:
+    src: bcl2fastq_logger.config.j2
+    dest: "{{ arteria_bcl2fastq_logger_config }}"
 
 - name: deploy arteria-bcl2fastq supervisord config
   template:

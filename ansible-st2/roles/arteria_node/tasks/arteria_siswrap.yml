@@ -96,7 +96,7 @@
   pip:
       requirements: /usr/src/arteria-siswrap/requirements/dev
       chdir: /usr/src/arteria-siswrap
-      virtualenv: arteria_siswrap_env_root
+      virtualenv: "{{arteria_siswrap_env_root}}"
       virtualenv_command: /usr/local/bin/virtualenv
       state: present
       executable: "{{ arteria_siswrap_env_root }}/bin/pip"
@@ -120,10 +120,15 @@
     state: directory
     path: "{{ arteria_siswrap_config_root }}"
 
-- name: deploying arteria-siswrap config
+- name: deploying arteria-siswrap app config
   template:
-    src: siswrap.config.j2
-    dest: "{{ arteria_siswrap_config }}"
+    src: siswrap_app.config.j2
+    dest: "{{ arteria_siswrap_app_config }}"
+
+- name: deploying arteria-siswrap logger config
+  template:
+    src: siswrap_logger.config.j2
+    dest: "{{ arteria_siswrap_logger_config }}"
 
 - name: deploy arteria-siswrap supervisord config
   template:
