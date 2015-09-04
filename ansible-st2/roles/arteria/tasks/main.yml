@@ -42,5 +42,5 @@
     backup=yes
   notify:
     - restart st2
-  tags:
-    - current
+
+  
