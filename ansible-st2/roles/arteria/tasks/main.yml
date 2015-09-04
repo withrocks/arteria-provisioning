@@ -1,6 +1,9 @@
 ---
 
-# TODO: Change this user name in a better way in the future.. 
+- name: Install libpq-dev
+  apt: name=libpq-dev state=present
+
+# TODO: Change this user name in a better way in the future..
 - name: Change the system user from the default stanley to our provision user
   sudo: yes
   replace: regexp="^user = stanley$" replace="user = {{ ansible_ssh_user }}" dest=/etc/st2/st2.conf backup=yes
@@ -27,3 +30,17 @@
 - name: Create log dir for arteria
   sudo: yes
   file: path=/var/log/arteria/ state=directory owner={{ ansible_ssh_user }} group={{ ansible_ssh_user }} mode=0755
+
+
+- name: Ensure api is reachable from web-ui
+  sudo: yes
+  ini_file:
+    dest=/etc/st2/st2.conf
+    section=api
+    option=allow_origin
+    value=http://stackstorm-master:8080
+    backup=yes
+  notify:
+    - restart st2
+  tags:
+    - current

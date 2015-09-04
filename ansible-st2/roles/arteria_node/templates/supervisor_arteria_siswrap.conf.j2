@@ -1,7 +1,7 @@
 [program:siswrap-ws]
 process_name = siswrap-ws-%(process_num)s
 command = /opt/arteria/arteria-siswrap-env/bin/siswrap-ws
-              --config-root={{ arteria_siswrap_config_root }}
+              --configroot={{ arteria_siswrap_config_root }}
               --port %(process_num)s
 numprocs = 1
 numprocs_start=10700
