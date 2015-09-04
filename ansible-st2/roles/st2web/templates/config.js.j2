@@ -4,8 +4,7 @@ angular.module('main')
 
         hosts: [{
                 name: 'Dev Env',
-                url: '//127.0.0.1:9101',
+                url: '//{{ ansible_hostname }}:9101',
                 auth: true,
                 }]
-
             });
