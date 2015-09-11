@@ -57,12 +57,21 @@ Vagrant.configure(2) do |config|
     testtank.vm.synced_folder "../arteria-siswrap/", "/arteria/arteria-siswrap"
     testtank.vm.synced_folder "../arteria-runfolder/", "/arteria/arteria-runfolder"
     testtank.vm.synced_folder "../arteria-provisioning/", "/arteria/arteria-provisioning"
-    #testtank.vm.synced_folder "/data/arteria_test_data/", "/data/testarteria1/mon1/"
+    #testtank.vm.synced_folder "/data/arteria_test_data/", "/data/testarteria1/runfolders"
 
     testtank.vm.provision "ansible" do |ansible|
       ansible.playbook = "ansible-st2/playbooks/arteriaexpress.yaml"
       ansible.inventory_path = "ansible-st2/inventories/test_inventory"
     end
+
+  end
+
+  # Configure the uppmax stand-in
+  config.vm.define "testuppmax" do |testuppmax|
+
+    testuppmax.vm.box = "puppetlabs/centos-6.6-64-puppet"
+    testuppmax.vm.hostname = "testuppmax"
+    testuppmax.vm.network :private_network, ip: '192.168.42.44'
 
   end
 
