@@ -1,7 +1,8 @@
 ---
 - name: Install st2 for arteria
   remote_user: vagrant
-  hosts: master 
+  sudo: true
+  hosts: master
   vars:
     # the StackStorm version to install
     version: 0.11.2
@@ -19,9 +20,13 @@
         - st2debug
         - st2reactor
     - mysql
+    # Ugly hack for now. _arteria contains some dependencies for
+    # _mistral, but _arteria has to run last as well for some
+    # configs to be done.
+    - arteria
     - mistral
     - st2web
-    - arteria 
+    - arteria
 
 - name: Setup the testarteria1 node
   remote_user: vagrant
