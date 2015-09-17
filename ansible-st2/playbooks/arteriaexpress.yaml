@@ -7,6 +7,7 @@
     # the StackStorm version to install
     version: 0.11.2
   roles:
+    - local_st2mods # Do some local modifications for St2 to work
     - st2op
     - mongodb
     - rabbitmq
@@ -20,10 +21,6 @@
         - st2debug
         - st2reactor
     - mysql
-    # Ugly hack for now. _arteria contains some dependencies for
-    # _mistral, but _arteria has to run last as well for some
-    # configs to be done.
-    - arteria
     - mistral
     - st2web
     - arteria
