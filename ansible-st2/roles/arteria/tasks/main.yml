@@ -1,8 +1,5 @@
 ---
 
-- name: Install libpq-dev
-  apt: name=libpq-dev state=present
-
 # TODO: Change this user name in a better way in the future..
 - name: Change the system user from the default stanley to our provision user
   sudo: yes
@@ -19,7 +16,7 @@
 
 - name: Get st2 token
   command: /bin/bash /arteria/arteria-packs/scripts/st2token
-  register: st2token 
+  register: st2token
 
 - name: Setup virtualenv for arteria-packs
   command: /bin/bash -c "ST2_AUTH_TOKEN={{ st2token.stdout }} /arteria/arteria-packs/scripts/setup-virtualenv"
@@ -31,7 +28,6 @@
   sudo: yes
   file: path=/var/log/arteria/ state=directory owner={{ ansible_ssh_user }} group={{ ansible_ssh_user }} mode=0755
 
-
 - name: Ensure api is reachable from web-ui
   sudo: yes
   ini_file:
@@ -42,5 +38,3 @@
     backup=yes
   notify:
     - restart st2
-
-  
