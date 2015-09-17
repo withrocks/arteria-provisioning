@@ -1,0 +1,4 @@
+---
+
+smtp_gateway: "[smtp.gmail.com]:587"
+smtp_rewrite: true

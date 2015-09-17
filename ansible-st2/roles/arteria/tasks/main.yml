@@ -1,5 +1,8 @@
 ---
 
+- include: arteria_mailclient.yml
+  tags: arteria_mailclient
+
 # TODO: Change this user name in a better way in the future..
 - name: Change the system user from the default stanley to our provision user
   sudo: yes
