@@ -12,6 +12,7 @@ Vagrant.configure(2) do |config|
   config.vm.define "stackstorm-master" do |stackstorm|
 
     stackstorm.vm.box = "ubuntu/trusty64"
+    stackstorm.vm.box_version = "20150909.1.0"
 
     stackstorm.vm.hostname = "stackstorm-master"
     stackstorm.vm.network :private_network, ip: '192.168.42.42'
