@@ -11,6 +11,7 @@
   git:
     repo: https://github.com/arteria-project/arteria-bcl2fastq.git
     dest: /usr/src/arteria-bcl2fastq
+    update: yes
 
 - name: install arteria-bcl2fastq requirements
   pip:

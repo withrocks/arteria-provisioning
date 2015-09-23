@@ -6,6 +6,7 @@
   git:
     repo: https://github.com/arteria-project/arteria-core.git
     dest: /usr/src/arteria-core_runfolder
+    update: yes
 
 - name: get arteria-runfolder from github
   git:

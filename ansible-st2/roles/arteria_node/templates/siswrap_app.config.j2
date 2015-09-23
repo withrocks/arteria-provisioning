@@ -1,11 +1,12 @@
-{
-    "port": 10900,
-    "py/object": "configuration.ConfigurationFile",
-    "sender": "johan.hermansson@medsci.uu.se",
-    "receiver": "johan.hermansson@gmail.com",
-    "report_bin": "/opt/arteria-siswrap-env/deps/sisyphus/sisyphus-latest/quickReport.pl",
-    "qc_bin": "/opt/arteria-siswrap-env/deps/sisyphus/sisyphus-latest/qcValidateRun.pl",
-    "qc_file": "/srv/qc_config/sisyphus_qc.xml",
-    "runfolder_root": "{{ runfolder_path }}",
-    "perl": "/usr/bin/perl"
-}
+---
+
+port: 10900
+sender: me@example.com
+receiver: who@example.com
+report_bin: /opt/arteria/arteria-siswrap-env/deps/sisyphus/sisyphus-latest/quickReport.pl
+qc_bin: /opt/arteria/arteria-siswrap-env/deps/sisyphus/sisyphus-latest/qcValidateRun.pl
+version_bin: /opt/arteria/arteria-siswrap-env/deps/sisyphus/sisyphus-latest/version.pl
+qc_file: /srv/qc_config/sisyphus_qc.xml
+runfolder_root: {{ runfolder_path }}/
+perl: /usr/bin/perl
+
