@@ -3,33 +3,14 @@
 - include: arteria_mailclient.yml
   tags: arteria_mailclient
 
-# TODO: Change this user name in a better way in the future..
-- name: Change the system user from the default stanley to our provision user
-  sudo: yes
-  replace: regexp="^user = stanley$" replace="user = {{ ansible_ssh_user }}" dest=/etc/st2/st2.conf backup=yes
-
-- name: Change the system user's SSH key
-  sudo: yes
-  replace: regexp="^ssh_key_file = /home/stanley/.ssh/stanley_rsa$" replace="ssh_key_file = /home/{{ ansible_ssh_user }}/.ssh/key" dest=/etc/st2/st2.conf backup=yes
-  notify:
-    - restart st2
+- include: conf.yml
+  tags: arteria_master_conf 
 
 - name: Pause for 1 minute until stackstorm services are up and online
   pause: minutes=1
 
-- name: Get st2 token
-  command: /bin/bash /arteria/arteria-packs/scripts/st2token
-  register: st2token
-
-- name: Setup virtualenv for arteria-packs
-  command: /bin/bash -c "ST2_AUTH_TOKEN={{ st2token.stdout }} /arteria/arteria-packs/scripts/setup-virtualenv"
-
-- name: Register arteria-packs
-  command: /bin/bash -c "export ST2_AUTH_TOKEN={{ st2token.stdout }} && /arteria/arteria-packs/scripts/register"
-
-- name: Create log dir for arteria
-  sudo: yes
-  file: path=/var/log/arteria/ state=directory owner={{ ansible_ssh_user }} group={{ ansible_ssh_user }} mode=0755
+- include: register_components.yml
+  tags: arteria_register_components 
 
 - name: Ensure api is reachable from web-ui
   sudo: yes
@@ -41,3 +22,4 @@
     backup=yes
   notify:
     - restart st2
+  tags: arteria_master_conf
