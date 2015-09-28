@@ -50,7 +50,7 @@
   file: path={{ sisyphus_path }} state=directory
 
 - name: get sisyphus code
-  git: repo={{ sisyphus_git_repo }} version={{ sisyphus_repo_branch }} dest={{ sisyphus_path }}/sisyphus-tmp
+  git: repo={{ sisyphus_git_repo }} version={{ sisyphus_repo_branch }} dest={{ sisyphus_path }}/sisyphus-tmp update=yes
 
 - name: get sisyphus version
   command: git --git-dir={{ sisyphus_path }}/sisyphus-tmp/.git describe --tags
@@ -91,6 +91,7 @@
   git:
     repo: https://github.com/arteria-project/arteria-siswrap.git
     dest: /usr/src/arteria-siswrap
+    update: yes
 
 - name: install arteria-siswrap requirements
   pip:
@@ -98,12 +99,14 @@
       chdir: /usr/src/arteria-siswrap
       virtualenv: "{{arteria_siswrap_env_root}}"
       virtualenv_command: /usr/local/bin/virtualenv
-      state: present
+      state: latest
       executable: "{{ arteria_siswrap_env_root }}/bin/pip"
       extra_args: "--no-cache-dir"
       # FIXME: Sometimes the md5 checksum fails, seems to be fixed by removing
       # ~root/.cache/pip. According to docs "--no-cache-dir" should make pip
       # ignore this cache, but it doesn't seem to work via Ansible?
+  notify:
+    - restart siswrap
 
 # Install into virtualenv.
 - name: install arteria-siswrap
@@ -129,11 +132,15 @@
   template:
     src: siswrap_logger.config.j2
     dest: "{{ arteria_siswrap_logger_config }}"
+  notify:
+     - restart siswrap
 
 - name: deploy arteria-siswrap supervisord config
   template:
     src: supervisor_arteria_siswrap.conf.j2
     dest: /etc/supervisor/conf.d/siswrap.conf
+  notify:
+     - restart siswrap
 
 - supervisorctl:
     name: siswrap-ws

@@ -2,3 +2,9 @@
   service:
     name: supervisord
     state: started
+
+
+- name: restart siswrap
+  supervisorctl:
+    name: siswrap
+    state: restarted
