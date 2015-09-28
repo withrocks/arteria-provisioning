@@ -1,12 +1,10 @@
 ---
 
-port: 10900
+port: 10700
 sender: me@example.com
 receiver: who@example.com
-report_bin: /opt/arteria/arteria-siswrap-env/deps/sisyphus/sisyphus-latest/quickReport.pl
-qc_bin: /opt/arteria/arteria-siswrap-env/deps/sisyphus/sisyphus-latest/qcValidateRun.pl
-version_bin: /opt/arteria/arteria-siswrap-env/deps/sisyphus/sisyphus-latest/version.pl
-qc_file: /srv/qc_config/sisyphus_qc.xml
+report_bin: {{ arteria_siswrap_env_root }}/deps/sisyphus/sisyphus-latest/quickReport.pl
+qc_bin: {{ arteria_siswrap_env_root }}/deps/sisyphus/sisyphus-latest/qcValidateRun.pl
+version_bin: {{ arteria_siswrap_env_root }}/deps/sisyphus/sisyphus-latest/version.pl
 runfolder_root: {{ runfolder_path }}/
 perl: /usr/bin/perl
-
