@@ -4,3 +4,5 @@ stackstorm-master
 [nodes]
 testarteria1
 
+[remote]
+testuppmax

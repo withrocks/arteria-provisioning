@@ -30,4 +30,12 @@
   sudo: true
   hosts: nodes
   roles:
+    - sisyphus
     - arteria_node
+
+- name: Setup test remote node
+  remote_user: vagrant
+  sudo: true
+  hosts: remote
+  roles:
+    - sisyphus
