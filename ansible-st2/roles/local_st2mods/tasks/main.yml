@@ -1,4 +1,0 @@
----
-  # This dependency is needed for Mistral to install correctly 
-- name: Install libpq-dev
-  apt: name=libpq-dev state=present
