@@ -1,27 +1,14 @@
 ---
 - name: Install st2 for arteria
-  remote_user: vagrant
-  sudo: true
   hosts: master
   vars:
-    # the StackStorm version to install
-    version: 0.11.2
+    st2_version: 0.13.2
   roles:
-    - local_st2mods # Do some local modifications for St2 to work
-    - st2op
     - mongodb
     - rabbitmq
-    - role: st2packages
-      packages:
-        - st2common
-        - st2actions
-        - st2api
-        - st2auth
-        - st2client
-        - st2debug
-        - st2reactor
     - mysql
     - mistral
+    - st2
     - st2web
     - arteria
 
@@ -39,3 +26,4 @@
   hosts: remote
   roles:
     - sisyphus
+
