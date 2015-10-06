@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# 1. Remove ansible-st2
+# 2. Copy upstream ansible-st2
+# 3. Symlink arteria specific stuff with this script
+# 4. Commit changes
+
+HERE=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+cd $HERE/../ansible-st2
+
+for f in "inventories" "roles/arteria" "roles/arteria_node" "roles/st2web"
+do
+    if [ ! -e $f ]; then
+        ln -s $HERE/$f $f
+    fi
+done
+
+for f in "playbooks/arteriaexpress.yaml"
+do
+    if [ ! -e $f ]; then
+        ln -s $HERE/$f $f
+    fi
+done
+
+ls -lR . | grep ^l
