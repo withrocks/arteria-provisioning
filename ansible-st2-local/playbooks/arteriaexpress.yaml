@@ -1,17 +1,15 @@
 ---
 - name: Install st2 for arteria
-  remote_user: vagrant
-  sudo: true
   hosts: master
   vars:
-    # the StackStorm version to install
-    version: stable   # TODO
+    st2_version: 0.13.2
   roles:
     - mongodb
     - rabbitmq
     - mysql
     - mistral
     - st2
+    - st2web
     - arteria
 
 - name: Setup the testarteria1 node
