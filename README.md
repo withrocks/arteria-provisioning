@@ -61,4 +61,9 @@ You can also play-around with triggering the workflows from StackStorm and in ge
 *More information*
 More information on how to deploy Arteria for different scenarios will be available on: http://arteria-project.github.io
 in the future.
-        
+
+*Synching with ansible-st2*
+The folder ansible-st is a copy of https://github.com/stackstorm/ansible-st2. When getting latest from upstream
+the directory ./ansible-st2 should be removed entirely and replaced with a copy of the repo maintained by stackstorm.
+Then run ./ansible-st2-local/symlink to update with our additions.
+
