@@ -1,14 +1,17 @@
 ---
 
 - name: apt-get purge sendmail
+  sudo: true
   apt: name=sendmail state=absent
   when: ansible_os_family == "Debian"
 
 - name: apt-get purge sendmail-cf
+  sudo: true
   apt: name=sendmail-cf state=absent
   when: ansible_os_family == "Debian"
 
 - name: Install postfix and dependencies
+  sudo: true
   apt:
     name: "{{ item }}"
     state: present
@@ -25,20 +28,25 @@
   sudo: false
 
 - name: distribute gmail authentication file
+  sudo: true
   copy: src=sasl_passwd dest=/etc/postfix/sasl/sasl_passwd backup=yes owner=postfix mode=0440
 
 - name: distribute postfix configuration
+  sudo: true
   template: src=etc_postfix_main.cf.j2 dest=/etc/postfix/main.cf backup=yes
 
 - name: distribute smtp_rewrite configuration and restart service
+  sudo: true
   template: src=etc_postfix_smtp_rewrite.j2 dest=/etc/postfix/smtp_rewrite backup=yes
 
 - name: copy certificate to right place
+  sudo: true
   shell: cp /etc/ssl/certs/Thawte_Premium_Server_CA.pem /etc/postfix/cacert.pem
 
 - name: change file owner of postfix configurations
+  sudo: true
   shell: chown -R postfix /etc/postfix
 
 - name: rebuild the hash
+  sudo: true
   shell: postmap /etc/postfix/sasl/sasl_passwd
-  notify: restart postfix
