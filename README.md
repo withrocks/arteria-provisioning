@@ -5,15 +5,11 @@ Note that this is not yet production ready, and should only be used for developm
 
 *Getting started*
 
-Install the hostmanager plugin for Vagrant:
-
-    vagrant plugin install vagrant-hostmanager
-
-This will manage the host files of the VMs and your hosting machine. Run `vagrant hostmanager` to update the hosts files.
-
-Generate a ssh-key (without a password) that will be used to establish password less ssh between the hosts.
-
-    ssh-keygen -f private_key
+Run the script ./dev-dependencies to set up required dependencies and validate your setup. It does the following:
+* Installs the hostmanager plugin for Vagrant
+  * This will manage the host files of the VMs and your hosting machine. Run `vagrant hostmanager` to update the hosts files.
+* Generates an ssh-key (without a password) that will be used to establish password less ssh between the hosts.
+* Validates that you're running the expected version of Ansible (1.9.3)
 
 Running `vagrant up` will produce a virtual machine which runs StackStorm, including the WebUI, listening on `stackstorm-master:8080`.
 

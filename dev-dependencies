@@ -14,3 +14,11 @@ if [ ! -f 'private_key' ]; then
   ssh-keygen -f private_key -C 'arteria' -P ''
 fi
 
+ansible_version=`ansible --version | head -n 1 | awk '{ print $2 }'`
+
+if [ "$ansible_version" != "1.9.3" ]; then
+  echo "You are running version '$ansible_version' of Ansible. This version has not been tested."
+  exit 1
+else
+  echo "You are running a version of Ansible that has been tested ($ansible_version)"
+fi
