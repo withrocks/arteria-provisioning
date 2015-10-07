@@ -5,7 +5,6 @@
     update_cache: yes
   with_items:
     - git
-    - python-setuptools  
     - libssl-dev
     - libyaml-dev
     - libffi-dev
@@ -13,5 +12,10 @@
     - libxslt1-dev
     - python-dev
     - python-pip
-    - python-virtualenv
     - libmysqlclient-dev
+    - libpq-dev
+
+- name: Install pip virtualenv
+  sudo: true
+  pip:
+    name: virtualenv

@@ -1,7 +1,0 @@
----
-  # This dependency is needed for Mistral to install correctly
-- name: Install libpq-dev
-  apt: name=libpq-dev state=present
-
-- name: rebuild apt cache due to transparent caches upstream 
-  shell: rm -rf /var/lib/apt/lists/* && apt-get update
