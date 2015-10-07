@@ -5,21 +5,17 @@
 # 3. Symlink arteria specific stuff with this script
 # 4. Commit changes
 
-HERE=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-cd $HERE/../ansible-st2
+SCRIPT_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-for f in "inventories" "roles/arteria" "roles/arteria_node" "roles/st2web" "roles/sisyphus"
-do
-    if [ ! -e $f ]; then
-        ln -s $HERE/$f $f
-    fi
-done
+cd $SCRIPT_PATH/../ansible-st2/
+ln -fs ../ansible-st2-local/inventories inventories
+ls -l | grep ^l
 
-for f in "playbooks/arteriaexpress.yaml"
-do
-    if [ ! -e $f ]; then
-        ln -s $HERE/$f $f
-    fi
-done
+cd $SCRIPT_PATH/../ansible-st2/playbooks
+ln -fs ../../ansible-st2-local/playbooks/* .
+ls -l | grep ^l
 
-ls -lR . | grep ^l
+cd $SCRIPT_PATH/../ansible-st2/roles
+ln -fs ../../ansible-st2-local/roles/* .
+ls -l | grep ^l
+
