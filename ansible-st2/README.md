@@ -11,12 +11,18 @@ Aka IFTTT orchestration for Ops.
 * Ubuntu 14.04
 
 ## Requirements
-At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is shipped with RabbitMQ, MySQL, Mongo, OpenStack Mistral and dozens of Python dependencies.
+At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is shipped with RabbitMQ, PostgreSQL, Mongo, OpenStack Mistral and dozens of Python dependencies.
 
 ## Installation
 ```sh
+ansible-galaxy install -r roles/mistral/requirements.yml
+
 ansible-playbook playbooks/st2express.yaml
 ```
+
+## Dependencies
+Ansible Galaxy roles used by StackStorm installation:
+ * [ANXS.postgresql](https://galaxy.ansible.com/list#/roles/512) - PostgreSQL, needed by Mistral
 
 ## Variables
 Below is the list of variables you can redefine in your playbook to customize st2 deployment:
@@ -54,7 +60,6 @@ For your best experience there are different convenient ways to install and expl
 * [Chef](https://supermarket.chef.io/cookbooks/stackstorm)
 * [Puppet](https://forge.puppetlabs.com/stackstorm/st2)
 * [Bash](http://docs.stackstorm.com/install/index.html#installation)
-* [Docker](https://hub.docker.com/r/stackstorm/)
 * [Vagrant](https://github.com/StackStorm/st2workroom/)
 
 ## Help
