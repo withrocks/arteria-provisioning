@@ -3,6 +3,7 @@
   hosts: master
   vars:
     st2_version: 0.13.2
+    st2web_version: 0.13.2
   roles:
     # Postgres requires that the en_US.UTF-8 locale is set - this fixes that
     - locale
