@@ -1,15 +1,5 @@
-# TODO
-# Super ugly hack to make this work for now...
-# I've reported this issue here: https://github.com/StackStorm/st2/issues/2062
-# /JD 20151009
-- name: copy resources into site-packages
-  command: cp -r /opt/openstack/mistral/resources /opt/openstack/mistral/.venv/local/lib/python2.7/site-packages/
-  sudo: true
-  args:
-    creates: /opt/openstack/mistral/.venv/local/lib/python2.7/site-packages/resources
-
 - name: Sync database
-  shell: /opt/openstack/mistral/.venv/bin/python ./tools/sync_db.py --config-file /etc/mistral/mistral.conf
+  shell: /opt/openstack/mistral/.venv/bin/python ./tools/sync_db.py --config-file /etc/mistral/mistral.conf && touch /etc/mistral/database_setup.lock
   args:
     chdir: /opt/openstack/mistral
     creates: /etc/mistral/database_setup.lock
