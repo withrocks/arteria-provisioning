@@ -1,8 +1,6 @@
 ---
 
 # TODO Ensure all this is versioned!
-# TODO: Investigate whether or not /usr/local/bin/ is in the path.
-#       I get it, but not JD.
 
 - name: install sisyphus dependencies from centos repository
   yum:
@@ -41,7 +39,7 @@
   get_url: url=http://cpanmin.us dest=/tmp/cpanm_install.pl
 
 - name: install cpanm
-  command: perl /tmp/cpanm_install.pl --sudo App::cpanminus
+  command: perl /tmp/cpanm_install.pl App::cpanminus
 
 - name: install File::NFSLock
   cpanm: name=File::NFSLock
