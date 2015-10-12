@@ -1,7 +1,7 @@
 ---
 
 - name: Download webui
-  get_url: url=https://downloads.stackstorm.net/releases/st2/{{ version }}/webui/webui-{{ version }}.tar.gz dest=/tmp/
+  get_url: url=https://downloads.stackstorm.net/releases/st2/{{ st2web_version }}/webui/webui-{{ st2web_version }}.tar.gz dest=/tmp/
 
 - name: Create /opt/opt/stackstorm/static/
   sudo: yes
@@ -9,7 +9,7 @@
 
 - name: Uncompress webui
   sudo: yes
-  unarchive: copy=no src=/tmp/webui-{{ version }}.tar.gz  dest=/opt/stackstorm/static/
+  unarchive: copy=no src=/tmp/webui-{{ st2web_version }}.tar.gz  dest=/opt/stackstorm/static/
 
 - name: Set config
   sudo: yes
