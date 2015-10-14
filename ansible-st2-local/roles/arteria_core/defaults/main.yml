@@ -1,0 +1,6 @@
+---
+
+arteria_disable_iptables: true
+arteria_user: vagrant
+
+
