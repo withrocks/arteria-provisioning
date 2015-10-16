@@ -22,11 +22,6 @@
     - ca-certificates
     - libsasl2-modules
 
-- name: get ansible's local hostname, used for address rewriting on  test deployment
-  local_action: command hostname -A
-  register: smtp_local_orchestring_hostname
-  sudo: false
-
 - name: distribute gmail authentication file
   sudo: true
   copy: src=sasl_passwd dest=/etc/postfix/sasl/sasl_passwd backup=yes owner=postfix mode=0440
@@ -34,10 +29,6 @@
 - name: distribute postfix configuration
   sudo: true
   template: src=etc_postfix_main.cf.j2 dest=/etc/postfix/main.cf backup=yes
-
-- name: distribute smtp_rewrite configuration and restart service
-  sudo: true
-  template: src=etc_postfix_smtp_rewrite.j2 dest=/etc/postfix/smtp_rewrite backup=yes
 
 - name: copy certificate to right place
   sudo: true
@@ -50,3 +41,4 @@
 - name: rebuild the hash
   sudo: true
   shell: postmap /etc/postfix/sasl/sasl_passwd
+  notify: restart postfix
