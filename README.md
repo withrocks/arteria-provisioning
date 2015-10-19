@@ -11,9 +11,9 @@ Run the script ./dev-dependencies to set up required dependencies and validate y
 * Generates an ssh-key (without a password) that will be used to establish password less ssh between the hosts.
 * Validates that you're running the expected version of Ansible (1.9.3)
 
-Running `vagrant up` will produce a virtual machine which runs StackStorm, including the WebUI, listening on `stackstorm-master:8080`.
+Running `vagrant up` will produce a virtual machine which runs StackStorm, including the WebUI, listening on `stackstorm-master:8080`. Login with `user=testu password=testp`.  
 
-Login with `user=testu password=testp`.
+Vagrant also setups a virtual machine `testarteria1` where the various Arteria services gets installed. Note that the memory requirement in the Vagrantfile for this machine is at the moment mainly for the bcl2fastq service, so if you don't have enough memory on your machine, and you just want to be able to install it, then please go ahead and decrease the required memory. 
 
 The playbooks here are forked from: https://github.com/StackStorm/ansible-st2. In the future we'll probably move to 
 running the StackStorm services in Docker containers, and at that point this will change a lot, but for now this is 
@@ -31,7 +31,7 @@ You'll need the following repos (if you are using the Vagrant file):
 
 There is a sample configuration for Postfix bundled, that relays mail via Gmail. This needs to be manually adopted and changed by the user for her specific needs, if she wants Stackstorm to be able to send notification emails when an error in the workflow has occurred.
 
-Edit `/etc/postfix/sasl/sasl_passwd`. After saving run `postmap /etc/postfix/sasl/sasl_passwd`. Login to your Google account and go to https://myaccount.google.com. Navigate to /Sign-in & security -> Connected apps & sites/, and enable there the option /Allow less secure apps/.  
+Edit `/etc/postfix/sasl/sasl_passwd` on `stackstorm-master`. After saving run `postmap /etc/postfix/sasl/sasl_passwd`. Login to your Google account and go to https://myaccount.google.com. Navigate to /Sign-in & security -> Connected apps & sites/, and enable there the option /Allow less secure apps/.  
 
 Now verify that the email configuration works with e.g. `echo arteriatest | mail -s arteriatest user@host`, where `user@host` is the recipient address you want to try mailing. If it doesn't seem to work then an inspection of the log file `/var/log/mail.log` together with the Postfix manual is recommended. 
 
