@@ -27,6 +27,14 @@ You'll need the following repos (if you are using the Vagrant file):
     ./arteria-bcl2fastq
     ./arteria-siswrap
 
+*Configuring mail sending*
+
+There is a sample configuration for Postfix bundled, that relays mail via Gmail. This needs to be manually adopted and changed by the user for her specific needs, if she wants Stackstorm to be able to send notification emails when an error in the workflow has occurred.
+
+Edit `/etc/postfix/sasl/sasl_passwd`. After saving run `postmap /etc/postfix/sasl/sasl_passwd`. Login to your Google account and go to https://myaccount.google.com. Navigate to /Sign-in & security -> Connected apps & sites/, and enable there the option /Allow less secure apps/.  
+
+Now verify that the email configuration works with e.g. `echo arteriatest | mail -s arteriatest user@host`, where `user@host` is the recipient address you want to try mailing. If it doesn't seem to work then an inspection of the log file `/var/log/mail.log` together with the Postfix manual is recommended. 
+
 *The arteria system*
 
 The vagrant setup and ansible playbook here demonstrates a simple usage scenario where we have one central StackStorm

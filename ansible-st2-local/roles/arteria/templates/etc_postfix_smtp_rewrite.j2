@@ -1,4 +1,0 @@
-# Rewrite for test systems. If you have proper DNS you might not need this
-{% if smtp_rewrite %}
-/(.*)@{{ ansible_fqdn }}/ $1.{{ ansible_hostname }}@{{ smtp_local_orchestring_hostname.stdout }}
-{% endif %}
