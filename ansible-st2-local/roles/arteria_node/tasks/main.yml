@@ -1,9 +1,5 @@
 ---
 
-- include: core_tasks.yml
-  tags: arteria_core 
-- include: arteria_runfolder.yml
-  tags: arteria_runfolder
 - include: arteria_bcl2fastq.yml
   tags: arteria_bcl2fastq
 - include: arteria_siswrap.yml

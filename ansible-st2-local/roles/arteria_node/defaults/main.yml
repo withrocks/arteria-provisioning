@@ -1,7 +1,5 @@
 ---
 
-arteria_disable_iptables: true 
-
 install_path: /opt/arteria/
 
 arteria_siswrap_env_root: /opt/arteria/arteria-siswrap-env
@@ -13,15 +11,10 @@ sisyphus_path: "{{ arteria_siswrap_path }}/deps/sisyphus/"
 sisyphus_git_repo: https://github.com/Molmed/sisyphus.git
 sisyphus_repo_branch: master
 
+runfolder_path: /data/{{ ansible_nodename }}/runfolders
 arteria_bcl2fastq_env_root: /opt/arteria/arteria-bcl2fastq-env
 arteria_bcl2fastq_config_root: /etc/arteria/bcl2fastq/
 arteria_bcl2fastq_app_config: "{{ arteria_bcl2fastq_config_root }}/app.config"
 arteria_bcl2fastq_logger_config: "{{ arteria_bcl2fastq_config_root }}/logger.config"
-runfolder_path: /data/{{ ansible_nodename }}/runfolders
 bcl2fastq_logs_path: /var/log/bcl2fastq/
-arteria_user: vagrant
 
-arteria_runfolder_env_root: /opt/arteria/arteria-runfolder-env
-arteria_runfolder_config_root: /etc/arteria/runfolder
-arteria_runfolder_app_config: "{{ arteria_runfolder_config_root }}/app.config"
-arteria_runfolder_logger_config: "{{ arteria_runfolder_config_root }}/logger.config"
