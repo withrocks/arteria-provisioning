@@ -74,6 +74,19 @@ Vagrant.configure(2) do |config|
     testuppmax.vm.hostname = "testuppmax"
     testuppmax.vm.network :private_network, ip: '192.168.42.44'
 
+    testuppmax.vm.provision "shell", inline: "mkdir -p /tmp/runfolders"
+    testuppmax.vm.provision "shell", inline: "chown -R vagrant:vagrant /tmp/runfolders"
+    testuppmax.vm.provision "shell", inline: "mkdir -p /tmp/summaries"
+    testuppmax.vm.provision "shell", inline: "chown -R vagrant:vagrant /tmp/summaries"
+
+    testuppmax.vm.provision "shell", inline: 'echo export SNIC_RESOURCE=milou >> /home/vagrant/.bash_profile'
+    testuppmax.vm.provision "shell", inline: "printf '#!/bin/bash\necho $@\n' > /usr/local/bin/sbatch"
+    testuppmax.vm.provision "shell", inline: "chmod +x /usr/local/bin/sbatch"
+
+    testuppmax.vm.provision "ansible" do |ansible|
+      ansible.playbook = "ansible-st2/playbooks/arteriaexpress.yaml"
+      ansible.inventory_path = "ansible-st2/inventories/test_inventory"
+    end
   end
 
   # Deploy ssh keys to all host to ensure they have the
