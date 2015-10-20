@@ -63,3 +63,18 @@ The folder ansible-st is a copy of https://github.com/stackstorm/ansible-st2. Wh
 the directory ./ansible-st2 should be removed entirely and replaced with a copy of the repo maintained by stackstorm.
 Then run ./ansible-st2-local/symlink to update with our additions.
 
+*Fetch sources from other repos*
+
+NOTE: Currently the repos are only configurable for the runfolder service. All other services are fetched
+from the main git repos, https://github.com/arteria-project/*.git
+
+You can fetch from different repos by overriding the following parameters:
+
+| Variable            | Default       | Description  |
+| ------------------- | ------------- | ----- |
+| `arteria_runfolder_sources` | git | If set to git, the sources will be downloaded from the configured repos. If set to mount, the sources will instead be fetched from /arteria/*
+| `arteria_runfolder_repo` | `https://github.com/withrocks/arteria-runfolder.git` |
+| `arteria_runfolder_version` | `HEAD` | Git tag, branch name or a commit id
+| `arteria_runfolder_core_repo`| `https://github.com/arteria-project/arteria-core.git` | NOTE: Will be discontinued, using only the requirements file of the library using it
+| `arteria_runfolder_core_version`   | `HEAD` | Git tag, branch name or a commit id
+

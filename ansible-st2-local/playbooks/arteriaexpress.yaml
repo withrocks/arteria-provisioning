@@ -16,9 +16,12 @@
   remote_user: vagrant
   sudo: true
   hosts: nodes
+  vars:
+    arteria_environment: staging
   roles:
     - sisyphus
     - arteria_node
+    - runfolder
 
 - name: Setup test remote node
   remote_user: vagrant

@@ -1,83 +1,20 @@
 ---
 
-#TODO Ensure all this is versioned!
+- include: sources.yml
+  tags: runfolder_sources
 
-- name: get arteria-core from github for runfolder
-  git:
-    repo: https://github.com/arteria-project/arteria-core.git
-    dest: /usr/src/arteria-core_runfolder
-    update: yes
+- include: install.yml
+  tags: runfolder_install
 
-- name: get arteria-runfolder from github
-  git:
-    repo: https://github.com/arteria-project/arteria-runfolder.git
-    dest: /usr/src/arteria-runfolder
-
-- name: install arteria-core requirements for runfolder
-  pip:
-      requirements: /usr/src/arteria-core_runfolder/requirements/dev
-      chdir: /usr/src/arteria-core_runfolder
-      virtualenv: /opt/arteria/arteria-runfolder-env/
-      virtualenv_command: /usr/local/bin/virtualenv
-      state: present
-      executable: "{{ arteria_runfolder_env_root }}/bin/pip"
-
-- name: install arteria-core for runfolder
-  pip:
-      name: .
-      chdir: /usr/src/arteria-core_runfolder
-      virtualenv: "{{ arteria_runfolder_env_root }}"
-      virtualenv_command: /usr/local/bin/virtualenv
-      state: present
-      executable: "{{ arteria_runfolder_env_root }}/bin/pip"
-
-- name: install arteria-runfolder requirements
-  pip:
-      requirements: /usr/src/arteria-runfolder/requirements/dev
-      chdir: /usr/src/arteria-runfolder
-      virtualenv: "{{ arteria_runfolder_env_root }}"
-      virtualenv_command: /usr/local/bin/virtualenv
-      state: present
-      executable: "{{ arteria_runfolder_env_root }}/bin/pip"
-
-- name: install arteria-runfolder
-  pip:
-      name: .
-      chdir: /usr/src/arteria-runfolder
-      virtualenv: "{{ arteria_runfolder_env_root }}"
-      virtualenv_command: /usr/local/bin/virtualenv
-      state: present
-      executable: "{{ arteria_runfolder_env_root }}/bin/pip"
-
-- name: ensure /etc/arteria/runfolder dir exists
-  file:
-    state: directory
-    path: "{{ arteria_runfolder_config_root }}"
-
-- name: deploy arteria-runfolder app config
-  template:
-    src: runfolder_app.config.j2
-    dest: "{{ arteria_runfolder_app_config }}"
-
-- name: deploy arteria-runfolder logger config
-  template:
-    src: runfolder_logger.config.j2
-    dest: "{{ arteria_runfolder_logger_config }}"
-
-- name: deploy arteria-runfolder supervisord config
-  template:
-    src: supervisor_arteria_runfolder.conf.j2
-    dest: /etc/supervisor/conf.d/runfolder.conf
+- include: install_config.yml
+  tags: runfolder_install
 
 - supervisorctl:
     name: runfolder-ws
     state: restarted
     supervisorctl_path: /usr/local/bin/supervisorctl
 
-# TODO: Make this prettier
-- name: create runfolder-ws-test for easy integration testing
-  command: bash -c "echo 'source {{ arteria_runfolder_env_root }}/bin/activate' > /usr/local/bin/runfolder-ws-test && echo 'nosetests /arteria/arteria-runfolder/tests/integration' >> /usr/local/bin/runfolder-ws-test && chmod +x /usr/local/bin/runfolder-ws-test"
+- include: integration_test.yml
+  tags: runfolder_integration_test
+  when: arteria_environment == "staging"
 
-- name: running integration tests for runfolder...
-  shell: sleep 2 && /usr/local/bin/runfolder-ws-test
-  ignore_errors: true
