@@ -1,5 +1,7 @@
 #!/bin/bash
 
+REPOS="arteria-core arteria-packs arteria-runfolder arteria-bcl2fastq arteria-siswrap"
+
 set -e
 
 if ! vagrant plugin list | grep --quiet vagrant-hostmanager; then 
@@ -13,6 +15,19 @@ if [ ! -f 'private_key' ]; then
   echo 'Generating ssh key'
   ssh-keygen -f private_key -C 'arteria' -P ''
 fi
+
+echo "Checking out needed arteria repos"
+
+pushd ..
+
+for repo in $REPOS
+do
+	if [ ! -d "$repo" ] ; then
+		git clone https://github.com/arteria-project/$repo
+	fi
+done
+
+popd
 
 ansible_version=`ansible --version | head -n 1 | awk '{ print $2 }'`
 

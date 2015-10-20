@@ -8,6 +8,7 @@ Note that this is not yet production ready, and should only be used for developm
 Run the script ./dev-dependencies to set up required dependencies and validate your setup. It does the following:
 * Installs the hostmanager plugin for Vagrant
   * This will manage the host files of the VMs and your hosting machine. Run `vagrant hostmanager` to update the hosts files.
+* Checks out other arteria-project related repositories one directory up (i.e: ../arteria-core).
 * Generates an ssh-key (without a password) that will be used to establish password less ssh between the hosts.
 * Validates that you're running the expected version of Ansible (1.9.3)
 
@@ -18,14 +19,6 @@ Vagrant also setups a virtual machine `testarteria1` where the various Arteria s
 The playbooks here are forked from: https://github.com/StackStorm/ansible-st2. In the future we'll probably move to 
 running the StackStorm services in Docker containers, and at that point this will change a lot, but for now this is 
 a working solution.
-
-You'll need the following repos (if you are using the Vagrant file):
-
-    ./arteria-provisioning (this)
-    ./arteria-packs
-    ./arteria-runfolder
-    ./arteria-bcl2fastq
-    ./arteria-siswrap
 
 *Configuring mail sending*
 
