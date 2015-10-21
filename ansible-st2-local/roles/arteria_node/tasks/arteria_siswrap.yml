@@ -78,7 +78,10 @@
 # TODO: Make this prettier
 - name: create siswrap-ws-test for easy integration testing
   command: bash -c "echo 'source {{ arteria_siswrap_env_root }}/bin/activate' > /usr/local/bin/siswrap-ws-test && echo 'py.test /arteria/arteria-siswrap/tests/integration/*.py' >> /usr/local/bin/siswrap-ws-test && chmod +x /usr/local/bin/siswrap-ws-test"
+  when: arteria_siswrap_run_tests
 
 - name: running integration tests for siswrap...
   shell: sleep 2 && /usr/local/bin/siswrap-ws-test
   ignore_errors: true
+  when: arteria_siswrap_run_tests
+

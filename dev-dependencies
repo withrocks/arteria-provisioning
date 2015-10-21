@@ -5,10 +5,10 @@ REPOS="arteria-core arteria-packs arteria-runfolder arteria-bcl2fastq arteria-si
 set -e
 
 if ! vagrant plugin list | grep --quiet vagrant-hostmanager; then 
-    echo "The vagrant package vagrant-hostmanager is missing"
-    vagrant plugin install vagrant-hostmanager
+  echo "The vagrant package vagrant-hostmanager is missing"
+  vagrant plugin install vagrant-hostmanager
 else
-    echo "vagrant-hostmanager is already installed"
+  echo "vagrant-hostmanager is already installed"
 fi 
 
 if [ ! -f 'private_key' ]; then
@@ -22,9 +22,9 @@ pushd ..
 
 for repo in $REPOS
 do
-	if [ ! -d "$repo" ] ; then
-		git clone https://github.com/arteria-project/$repo
-	fi
+  if [ ! -d "$repo" ] ; then
+    git clone https://github.com/arteria-project/$repo
+  fi
 done
 
 popd
