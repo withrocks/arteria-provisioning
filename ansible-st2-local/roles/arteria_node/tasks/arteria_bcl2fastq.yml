@@ -65,7 +65,9 @@
 # TODO: Make this prettier
 - name: create bcl2fastq-ws-test for easy integration testing
   command: bash -c "echo 'source {{ arteria_bcl2fastq_env_root }}/bin/activate' > /usr/local/bin/bcl2fastq-ws-test && echo 'nosetests /arteria/arteria-bcl2fastq/tests/integration' >> /usr/local/bin/bcl2fastq-ws-test && chmod +x /usr/local/bin/bcl2fastq-ws-test"
+  when: arteria_bcl2fastq_run_tests
 
 - name: running integration tests for bcl2fastq...
   shell: sleep 2 && /usr/local/bin/bcl2fastq-ws-test
   ignore_errors: true
+  when: arteria_bcl2fastq_run_tests
