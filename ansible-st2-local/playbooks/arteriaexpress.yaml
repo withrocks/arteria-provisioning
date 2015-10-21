@@ -22,6 +22,7 @@
     arteria_environment: staging
   roles:
     - arteria_node
+    - sisyphus
     - runfolder
 
 - name: Setup test remote node

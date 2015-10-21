@@ -4,17 +4,6 @@
 
 # This all assumes that the sisyphus role has been run before this.
 
-# qcValidateRun.pl looks for sisyphus_qc.xml in the runfolder, if not
-# manually specified on the command line. QCWrapper will at the moment
-# only try to copy /srv/qc_config/sisyphus_qc.xml into the runfolder.
-# So for now we copy the QC criteria from Sisyphus into the qc_config
-# folder. This might be done in some other way in the future.
-- name: create /srv/qc_config folder
-  file: path=/srv/qc_config state=directory
-
-- name: Deploy Sisyphus quality control config
-  file: state=link src={{ sisyphus_path }}/sisyphus-latest/sisyphus_qc.xml dest=/srv/qc_config/sisyphus_qc.xml
-
 - name: get arteria-siswrap from github
   git:
     repo: https://github.com/arteria-project/arteria-siswrap.git
