@@ -6,8 +6,6 @@ import subprocess
 instance = sys.argv[1] if len(sys.argv) > 1 else "stackstorm-master"
 user = sys.argv[2] if len(sys.argv) > 2 else "vagrant"
 
-print instance, user
-
 output = subprocess.check_output(
              ["ssh", "{}@{}".format(user, instance), "st2ctl", "status"])
 statuses = output.split(os.linesep)
