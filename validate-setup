@@ -1,3 +1,9 @@
+#!/bin/bash
+
 nc -zv stackstorm-master 8080
 nc -zv stackstorm-master 9100
-nc -zv stackstorm-master 9101 
+nc -zv stackstorm-master 9101
+
+# Check if all expected services are running:
+./stackstorm-up.py stackstorm-master vagrant
+
