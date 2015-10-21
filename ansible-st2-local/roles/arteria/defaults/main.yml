@@ -2,3 +2,5 @@
 
 smtp_gateway: "[smtp.gmail.com]:587"
 smtp_rewrite: true
+
+st2_webui_host: stackstorm-master
