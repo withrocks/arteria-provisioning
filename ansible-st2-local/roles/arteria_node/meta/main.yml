@@ -1,4 +1,5 @@
 ---
 dependencies:
   - { role: arteria_core }
+  - { role: sisyphus }
 

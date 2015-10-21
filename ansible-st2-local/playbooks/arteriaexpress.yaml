@@ -21,7 +21,6 @@
   vars:
     arteria_environment: staging
   roles:
-    - sisyphus
     - arteria_node
     - runfolder
 

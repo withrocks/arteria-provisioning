@@ -1,9 +1,6 @@
 ---
 
 # TODO Ensure all this is versioned!
-# TODO: Investigate whether or not /usr/local/bin/ is in the path.
-#       I get it, but not JD.
-
 
 # This all assumes that the sisyphus role has been run before this.
 
