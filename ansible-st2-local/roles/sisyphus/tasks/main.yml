@@ -70,4 +70,4 @@
   file: state=link src={{ sisyphus_path }}/sisyphus-{{ sisyphus_version.stdout }} dest={{ sisyphus_path }}/sisyphus-latest mode=775
 
 - name: set acl permissions on sisyphus code folder
-  command: setfacl -R -m u:{{ arteria_user }}:rwx {{ sisyphus_path }}
+  command: setfacl -R -m u:{{ arteria_sisyphus_user }}:rwx {{ sisyphus_path }}
