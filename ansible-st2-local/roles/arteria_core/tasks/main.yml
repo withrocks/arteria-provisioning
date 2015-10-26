@@ -1,5 +1,7 @@
 ---
 
+- debug: msg="Arteria user in arteria_core={{ arteria_user }}"
+
 - name: install the 'Development tools' package group
   yum: name="@Development tools" state=present
 

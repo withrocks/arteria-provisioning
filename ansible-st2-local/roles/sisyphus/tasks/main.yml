@@ -1,5 +1,7 @@
 ---
 
+- debug: msg="Arteria user in sisyphus={{ arteria_user }}"
+
 - name: install sisyphus dependencies from centos repository
   yum:
     name: "{{ item }}"

@@ -1,0 +1,3 @@
+from=arteria_sisyphus_user
+to=arteria_user
+sed -i "s/$from/$to/g" $(grep -lr $from ansible-st2-local/roles/sisyphus/*)

@@ -1,5 +1,8 @@
 ---
 
+
+- debug: msg="Arteria user in arteria_node={{ arteria_user }}"
+
 - include: arteria_bcl2fastq.yml
   tags: arteria_bcl2fastq
 - include: arteria_siswrap.yml
